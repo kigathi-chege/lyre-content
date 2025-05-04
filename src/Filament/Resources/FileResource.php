@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -31,11 +32,13 @@ class FileResource extends Resource
     {
         return $form
             ->schema([
-                // TODO: Kigathi - April 26 2025 - Name and description should be user addable and editable
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('file')
                     ->imagePreviewHeight('250')
                     ->loadingIndicatorPosition('left')
-                    ->panelAspectRatio('2:1')
+                    ->panelAspectRatio('3:1')
                     ->panelLayout('integrated')
                     ->removeUploadedFileButtonPosition('right')
                     ->uploadButtonPosition('left')
@@ -44,11 +47,39 @@ class FileResource extends Resource
                     ->multiple(false)
                     ->imageEditor()
                     ->columnSpanFull()
+                    // ->rules(['mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png,gif,svg,webp,mp4,mp3,txt'])
+                    ->acceptedFileTypes([
+                        'application/pdf',
+                        'image/*',
+                        'video/*',
+                        'audio/*',
+                        'text/*',
+
+                        // Microsoft Office documents
+                        'application/msword',                    // .doc
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+                        'application/vnd.ms-excel',              // .xls
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+                        'application/vnd.ms-powerpoint',         // .ppt
+                        'application/vnd.openxmlformats-officedocument.presentationml.presentation', // .pptx
+
+                        // text
+                        'text/csv',
+                        'text/plain',
+
+                        // Archives
+                        'application/zip',
+                        'application/x-zip-compressed',
+                        'multipart/x-zip',
+                    ])
                     ->imageEditorAspectRatios([
                         '16:9',
                         '4:3',
                         '1:1',
                     ]),
+
+                TiptapEditor::make('description')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -109,6 +140,9 @@ class FileResource extends Resource
             ->filters([
                 //
             ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
@@ -142,6 +176,7 @@ class FileResource extends Resource
         return [
             'index' => Pages\ListFiles::route('/'),
             'create' => Pages\CreateFile::route('/create'),
+            'edit' => Pages\EditFile::route('/{record}/edit'),
         ];
     }
 }

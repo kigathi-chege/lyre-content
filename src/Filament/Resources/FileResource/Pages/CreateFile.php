@@ -29,7 +29,7 @@ class CreateFile extends CreateRecord
         );
 
         $fileRepository = app(\Lyre\Content\Repositories\Contracts\FileRepositoryInterface::class);
-        $record = $fileRepository->uploadFile($uploadedFile);
+        $record = $fileRepository->uploadFile($uploadedFile, $data['name'] ?? null, $data['description'] ?? null);
 
         unlink($absolutePath);
 

@@ -14,7 +14,7 @@ class SelectFromGallery extends Field
     protected int $galleryPage = 1;
     protected int $perPage = 8;
 
-    protected string $view = 'forms.components.select-from-gallery';
+    protected string $view = 'lyre.content::forms.components.select-from-gallery';
 
     public static function make(string $name): static
     {

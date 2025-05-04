@@ -32,6 +32,12 @@ class LyreContentServiceProvider extends ServiceProvider
         ]);
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lyre.content');
+
+        $this->publishes([
+            __DIR__ . '/../resources/public' => public_path('lyre/content'),
+        ]);
     }
 
     public function registerRepositories($app)

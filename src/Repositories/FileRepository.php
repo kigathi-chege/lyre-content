@@ -17,11 +17,11 @@ class FileRepository extends Repository implements FileRepositoryInterface
 
     public function create(array $data)
     {
-        $thisModel = $this->uploadFile($data['file']);
+        $thisModel = $this->uploadFile($data['file'], $data['name'] ?? null, $data['description'] ?? null);
         return $this->resource ? new $this->resource($thisModel) : $thisModel;
     }
 
-    public function uploadFile($file)
+    public function uploadFile($file, $name = null, $description = null)
     {
         $checksum = hash_file('md5', $file->getRealPath());
         $mimeType = $file->getMimeType();
@@ -31,7 +31,7 @@ class FileRepository extends Repository implements FileRepositoryInterface
         $file = File::firstOrCreate(
             ['checksum' => $checksum],
             [
-                'name' => get_file_name_without_extension($file),
+                'name' => $name ?? get_file_name_without_extension($file),
                 'path' => $file->store("uploads/{$mimeType}", config('filesystems.default')),
                 'path_sm' =>  $resizedPaths['sm'] ?? null,
                 'path_lg' =>  $resizedPaths['lg'] ?? null,
@@ -40,6 +40,7 @@ class FileRepository extends Repository implements FileRepositoryInterface
                 'extension' => get_file_extension($file),
                 'mimetype' => $mimeType,
                 'storage' => config('filesystems.default'),
+                'description' => $description
             ]
         );
         if (!$file->wasRecentlyCreated) {

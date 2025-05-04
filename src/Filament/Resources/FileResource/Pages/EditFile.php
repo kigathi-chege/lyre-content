@@ -6,10 +6,25 @@ use Lyre\Content\Filament\Resources\FileResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Forms;
+use Filament\Forms\Form;
+use FilamentTiptapEditor\TiptapEditor;
 
 class EditFile extends EditRecord
 {
     protected static string $resource = FileResource::class;
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+                TiptapEditor::make('description')
+                    ->columnSpanFull(),
+            ]);
+    }
 
     protected function getHeaderActions(): array
     {

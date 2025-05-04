@@ -6,5 +6,5 @@ use Lyre\Interface\RepositoryInterface;
 
 interface FileRepositoryInterface extends RepositoryInterface
 {
-    public function uploadFile($file);
+    public function uploadFile($file, $name = null, $description = null);
 }

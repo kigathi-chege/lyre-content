@@ -18,6 +18,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Lyre\Content\Forms\Components\SelectFromGallery;
 
 class ArticleResource extends Resource
 {
@@ -42,11 +43,7 @@ class ArticleResource extends Resource
                 Forms\Components\TextArea::make('subtitle')
                     ->maxLength(255)
                     ->columnSpanFull(),
-                Forms\Components\Select::make('file')
-                    ->label('Featured Image')
-                    ->options(fn() => File::get()->pluck('name', 'id'))
-                    ->preload()
-                    ->searchable(),
+                SelectFromGallery::make('files')->label('Featured Image'),
                 Forms\Components\Select::make('author_id')
                     ->relationship('author', 'name')
                     ->preload()

@@ -14,7 +14,9 @@ class StoreFileRequest extends Request
     public function rules(): array
     {
         return [
-            'file' => ['required', 'file', 'mimes:jpg,jpeg,png,gif,svg,webp', 'max:2048'],
+            'file' => ['required', 'file', 'mimes:pdf,doc,docx,csv,xls,xlsx,ppt,pptx,zip,jpg,jpeg,png,gif,svg,webp,mp4,mp3,txt', 'max:2048'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
         ];
     }
 

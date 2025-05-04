@@ -13,7 +13,7 @@ class Gallery extends Page
 {
     protected static string $resource = FileResource::class;
 
-    protected static string $view = 'filament.resources.content.file-resource.pages.gallery';
+    protected static string $view = 'lyre.content::filament.resources.content.file-resource.pages.gallery';
 
     protected function getViewData(): array
     {
