@@ -6,12 +6,13 @@ use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Symfony\Component\Finder\Finder;
 use Filament\Resources\Resource;
+use Lyre\File\Filament\Plugins\LyreFileFilamentPlugin;
 
 class LyreContentFilamentPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'lyre-content';
+        return 'lyre.content';
     }
 
     public function register(Panel $panel): void
@@ -19,7 +20,10 @@ class LyreContentFilamentPlugin implements Plugin
         $resources = self::retrieveFilamentResources();
 
         $panel
-            ->resources($resources);
+            ->resources($resources)
+            ->plugins([
+                new LyreFileFilamentPlugin(),
+            ]);
     }
 
     public function boot(Panel $panel): void

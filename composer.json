@@ -19,7 +19,7 @@
     "laravel 12"
   ],
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "minimum-stability": "stable",
   "autoload": {
     "files": [
@@ -45,7 +45,8 @@
     "bezhansalleh/filament-shield": "202505041448.x-dev",
     "codeat3/blade-google-material-design-icons": "^1.20",
     "intervention/image-laravel": "^1.5",
-    "lyre/lyre": "^1.1"
+    "lyre/lyre": "^1.1",
+    "lyre/file": "^1.0"
   },
   "extra": {
     "laravel": {

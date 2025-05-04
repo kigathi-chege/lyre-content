@@ -2,9 +2,9 @@
 
 namespace Lyre\Content\Filament\Resources;
 
-use App\Filament\RelationManagers\FacetValuesRelationManager;
+// use App\Filament\RelationManagers\FacetValuesRelationManager;
 // use Lyre\Content\Filament\RelationManagers\FacetValuesRelationManager;
-use Lyre\Content\Filament\RelationManagers\FilesRelationManager;
+use Lyre\File\Filament\RelationManagers\FilesRelationManager;
 use Lyre\Content\Filament\Resources\ArticleResource\Pages;
 use Lyre\Content\Filament\Resources\ArticleResource\RelationManagers;
 use Lyre\Content\Models\Article;
@@ -18,7 +18,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
-use Lyre\Content\Forms\Components\SelectFromGallery;
+use Lyre\File\Forms\Components\SelectFromGallery;
 
 class ArticleResource extends Resource
 {

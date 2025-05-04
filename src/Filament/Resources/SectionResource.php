@@ -2,7 +2,7 @@
 
 namespace Lyre\Content\Filament\Resources;
 
-use Lyre\Content\Filament\RelationManagers\FilesRelationManager;
+use Lyre\File\Filament\RelationManagers\FilesRelationManager;
 use Lyre\Content\Filament\Resources\SectionResource\Pages;
 use Lyre\Content\Filament\Resources\SectionResource\RelationManagers;
 use Lyre\Content\Models\Section;

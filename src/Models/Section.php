@@ -2,8 +2,8 @@
 
 namespace Lyre\Content\Models;
 
-use Lyre\Content\Models\Attachment;
-use Lyre\Content\Models\File;
+use Lyre\File\Models\Attachment;
+use Lyre\File\Models\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Lyre\Model;
 

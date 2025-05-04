@@ -2,7 +2,7 @@
 
 namespace Lyre\Content\Http\Resources;
 
-use Lyre\Content\Http\Resources\File;
+use Lyre\File\Http\Resources\File;
 use Lyre\Content\Models\Section as SectionModel;
 use Lyre\Resource;
 
