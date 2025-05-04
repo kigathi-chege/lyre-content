@@ -1,0 +1,55 @@
+{
+  "name": "lyre/content",
+  "description": "Pages and sections copy manager",
+  "keywords": [
+    "php",
+    "github",
+    "laravel",
+    "Open Source",
+    "lyre",
+    "content",
+    "sections",
+    "pages",
+    "crud",
+    "relationships",
+    "resources",
+    "simple",
+    "laravel 10",
+    "laravel 11",
+    "laravel 12"
+  ],
+  "license": "MIT",
+  "version": "1.0.0",
+  "minimum-stability": "stable",
+  "autoload": {
+    "files": [
+      "src/utils/helpers.php"
+    ],
+    "psr-4": {
+      "Lyre\\Content\\": "src/"
+    },
+    "classmap": [
+      "src/"
+    ]
+  },
+  "authors": [
+    {
+      "name": "kigathi-chege",
+      "email": "chegekigathi@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "awcodes/filament-tiptap-editor": "^3.5",
+    "filament/filament": "^3.3",
+    "intervention/image-laravel": "^1.5",
+    "lyre/lyre": "^1.1"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Lyre\\Content\\Providers\\LyreContentServiceProvider"
+      ]
+    }
+  }
+}
