@@ -4,7 +4,7 @@ namespace Lyre\Content\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Gate;
+use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use Lyre\Content\Console\Commands\GenerateFilamentResources;
 use Lyre\Facades\Lyre;
@@ -18,41 +18,20 @@ class LyreContentServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // $loader = AliasLoader::getInstance();
-        // $loader->alias('Lyre', Lyre::class);
-
-        // $this->app->singleton('lyre', function ($app) {
-        //     return new ModelService();
-        // });
-
         $this->registerRepositories($this->app);
 
         $this->commands([GenerateFilamentResources::class]);
-
-        // require_once base_path('vendor/lyre/lyre/src/helpers/helpers.php');
-        // $this->mergeConfigFrom(
-        //     base_path('vendor/lyre/lyre/src/config/response-codes.php'),
-        //     'response-codes'
-        // );
     }
 
     public function boot(): void
     {
-        /**
-         * TODO: Kigathi - April 25 2025
-         * For the content package, we might need this:
-         * https://laravel.com/docs/12.x/authorization#manually-registering-policies
-         */
-
-        // Gate::before(function ($user, $ability) {
-        //     return $user->hasRole(config('lyre.super-admin') ?? 'super-admin') ? true : null;
-        // });
-
         $this->registerGlobalObserver();
 
-        // $this->publishes([
-        //     __DIR__ . '/../config/lyre.php' => config_path('lyre.php'),
-        // ]);
+        $this->publishesMigrations([
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
+        ]);
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 
     public function registerRepositories($app)

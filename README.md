@@ -29,3 +29,25 @@ To create an admin user:
 ```bash
 php artisan make:filament-user
 ```
+
+#### Discover Content Filament Resources
+
+To Discover Lyre Content Filament Resources on your Filament dashboard, add the LyreContentFilamentPlugin to your Filament panel like so:
+
+```php
+use Lyre\Content\Filament\Plugins\LyreContentFilamentPlugin;
+
+$panel->plugins([
+    new LyreContentFilamentPlugin(),
+]);
+```
+
+# ISSUES
+
+You need to change your minimum-stability level to `dev` on your composer.json like:
+
+```json
+"minimum-stability": "dev",
+```
+
+This is because Lyre Content depends on a fork of [FilamentShield](https://github.com/bezhanSalleh/filament-shield/pull/537) that has not yet been merged to [main](https://github.com/bezhanSalleh/filament-shield).

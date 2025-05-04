@@ -19,7 +19,7 @@
     "laravel 12"
   ],
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minimum-stability": "stable",
   "autoload": {
     "files": [
@@ -42,6 +42,8 @@
     "php": "^8.2",
     "awcodes/filament-tiptap-editor": "^3.5",
     "filament/filament": "^3.3",
+    "bezhansalleh/filament-shield": "202505041448.x-dev",
+    "codeat3/blade-google-material-design-icons": "^1.20",
     "intervention/image-laravel": "^1.5",
     "lyre/lyre": "^1.1"
   },
@@ -51,5 +53,11 @@
         "Lyre\\Content\\Providers\\LyreContentServiceProvider"
       ]
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/kigathi-chege/filament-shield"
+    }
+  ]
 }

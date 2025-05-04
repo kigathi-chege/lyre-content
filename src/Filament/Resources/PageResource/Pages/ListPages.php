@@ -12,11 +12,10 @@ class ListPages extends ListRecords
 
     // TODO: Kigathi - April 23 2025 - It is possible to add new pages with this knowledge:
     // https://svelte.dev/docs/kit/advanced-routing
-    // But for now, we must not add pages.
-    // protected function getHeaderActions(): array
-    // {
-    //     return [
-    //         Actions\CreateAction::make(),
-    //     ];
-    // }
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
 }
