@@ -130,15 +130,6 @@ class FileResource extends Resource
             ]);
     }
 
-    public function handleSelectedFiles(array $selectedFileIds)
-    {
-        \Log::info('Selected file IDs:', $selectedFileIds);
-
-        // Do something: maybe store them temporarily, attach to a record, etc.
-        // You can also close the modal:
-        $this->dispatchBrowserEvent('close-modal');
-    }
-
     public static function getRelations(): array
     {
         return [
