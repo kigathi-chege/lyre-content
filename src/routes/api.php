@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::apiResources([
-    'articles' => \Lyre\Content\Http\Controllers\ArticleController::class,
-    'pages' => \Lyre\Content\Http\Controllers\PageController::class,
-]);
+Route::prefix('api')->group(function () {
+    Route::apiResources([
+        'articles' => \Lyre\Content\Http\Controllers\ArticleController::class,
+        'pages' => \Lyre\Content\Http\Controllers\PageController::class,
+    ]);
+});

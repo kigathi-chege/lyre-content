@@ -4,12 +4,16 @@ namespace Lyre\Content\Filament\Plugins;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
-use Symfony\Component\Finder\Finder;
-use Filament\Resources\Resource;
+use Lyre\Facet\Filament\Plugins\LyreFacetFilamentPlugin;
 use Lyre\File\Filament\Plugins\LyreFileFilamentPlugin;
 
 class LyreContentFilamentPlugin implements Plugin
 {
+    public static function make(): static
+    {
+        return app(static::class);
+    }
+
     public function getId(): string
     {
         return 'lyre.content';
@@ -17,39 +21,17 @@ class LyreContentFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $resources = self::retrieveFilamentResources();
-
+        $resources = get_filament_resources_for_namespace('Lyre\\Content\\Filament\\Resources');
         $panel
             ->resources($resources)
             ->plugins([
                 new LyreFileFilamentPlugin(),
+                new LyreFacetFilamentPlugin(),
             ]);
     }
 
     public function boot(Panel $panel): void
     {
         //
-    }
-
-    private static function retrieveFilamentResources()
-    {
-        $resourceNamespace = 'Lyre\\Content\\Filament\\Resources';
-        $resourcePath = realpath(__DIR__ . '/../Resources');
-
-        $resources = collect((new Finder)->files()->in($resourcePath)->name('*.php'))
-            ->map(function ($file) use ($resourceNamespace, $resourcePath) {
-                // Get the relative path from resourcePath
-                $relativePath = str_replace('.php', '', $file->getRelativePathname());
-
-                // Convert slashes to namespace separators
-                $class = $resourceNamespace . '\\' . str_replace('/', '\\', $relativePath);
-
-                return class_exists($class) && is_subclass_of($class, Resource::class) ? $class : null;
-            })
-            ->filter()
-            ->values()
-            ->toArray();
-
-        return $resources;
     }
 }
