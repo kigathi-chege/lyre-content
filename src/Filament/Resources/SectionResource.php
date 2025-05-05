@@ -2,20 +2,17 @@
 
 namespace Lyre\Content\Filament\Resources;
 
-use Lyre\File\Filament\RelationManagers\FilesRelationManager;
 use Lyre\Content\Filament\Resources\SectionResource\Pages;
 use Lyre\Content\Filament\Resources\SectionResource\RelationManagers;
 use Lyre\Content\Models\Section;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
+use Lyre\File\Filament\Forms\Components\SelectFromGallery;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
 class SectionResource extends Resource
@@ -39,14 +36,16 @@ class SectionResource extends Resource
                     ->helperText('This represents the name of the frontend section, should not be edited.'),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
-                TiptapEditor::make('title'),
-                TiptapEditor::make('subtitle'),
-                JsonColumn::make('misc'),
-                TiptapEditor::make('description'),
+                SelectFromGallery::make('files')->label('Featured Images')->multiple(),
                 Forms\Components\Select::make('icon_id')
                     ->relationship('icon', 'name')
                     ->searchable()
                     ->preload(),
+                TiptapEditor::make('title'),
+                TiptapEditor::make('subtitle'),
+                TiptapEditor::make('description'),
+                JsonColumn::make('misc'),
+
             ]);
     }
 
@@ -83,7 +82,6 @@ class SectionResource extends Resource
             RelationManagers\ButtonsRelationManager::class,
             RelationManagers\TextsRelationManager::class,
             RelationManagers\SectionsRelationManager::class,
-            FilesRelationManager::class
         ];
     }
 

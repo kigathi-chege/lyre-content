@@ -5,19 +5,15 @@ namespace Lyre\Content\Filament\Resources;
 use Lyre\Facet\Filament\RelationManagers\FacetValuesRelationManager;
 use Lyre\File\Filament\RelationManagers\FilesRelationManager;
 use Lyre\Content\Filament\Resources\ArticleResource\Pages;
-use Lyre\Content\Filament\Resources\ArticleResource\RelationManagers;
 use Lyre\Content\Models\Article;
-use Lyre\Content\Models\File;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
-use Lyre\File\Forms\Components\SelectFromGallery;
+use Lyre\File\Filament\Forms\Components\SelectFromGallery;
 
 class ArticleResource extends Resource
 {

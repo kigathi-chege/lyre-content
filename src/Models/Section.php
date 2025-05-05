@@ -2,14 +2,13 @@
 
 namespace Lyre\Content\Models;
 
-use Lyre\File\Models\Attachment;
-use Lyre\File\Models\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Lyre\File\Concerns\HasFile;
 use Lyre\Model;
 
 class Section extends Model
 {
-    use HasFactory;
+    use HasFactory, HasFile;
 
     const NAME_COLUMN = 'title';
     const ORDER_COLUMN = 'order';
@@ -39,12 +38,6 @@ class Section extends Model
     public function texts()
     {
         return $this->belongsToMany(Text::class, 'section_texts', 'section_id', 'text_id');
-    }
-
-    public function files()
-    {
-        return $this->hasManyThrough(File::class, Attachment::class, 'attachable_id', 'id', 'id', 'file_id')
-            ->where('attachments.attachable_type', self::class);
     }
 
     public function icon()

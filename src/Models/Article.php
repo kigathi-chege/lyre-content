@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Lyre\Facet\Models\FacetedEntity;
 use Lyre\Facet\Models\FacetValue;
-use Lyre\File\Models\Attachment;
-use Lyre\File\Models\File;
+use Lyre\File\Concerns\HasFile;
 use Lyre\Model;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, HasFile;
 
     const ID_COLUMN = 'slug';
     const NAME_COLUMN = 'title';
@@ -35,17 +34,6 @@ class Article extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
-    }
-
-    public function attachments()
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
-    }
-
-    public function files()
-    {
-        return $this->hasManyThrough(File::class, Attachment::class, 'attachable_id', 'id', 'id', 'file_id')
-            ->where('attachments.attachable_type', self::class);
     }
 
     public function facetedEntities(): MorphMany
