@@ -3,7 +3,6 @@
 namespace Lyre\Content\Filament\Resources;
 
 use Lyre\Facet\Filament\RelationManagers\FacetValuesRelationManager;
-use Lyre\File\Filament\RelationManagers\FilesRelationManager;
 use Lyre\Content\Filament\Resources\ArticleResource\Pages;
 use Lyre\Content\Models\Article;
 use Filament\Forms;
@@ -99,7 +98,6 @@ class ArticleResource extends Resource
     {
         return [
             FacetValuesRelationManager::class,
-            FilesRelationManager::class
         ];
     }
 

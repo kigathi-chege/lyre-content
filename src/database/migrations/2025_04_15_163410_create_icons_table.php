@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('icons', function (Blueprint $table) {
-            basic_fields($table, 'icons');
-            $table->string('name')->unique();
-            $table->boolean('is_svg')->default(false);
-            $table->text('content')->nullable();
-        });
+        if (!Schema::hasTable('icons')) {
+            Schema::create('icons', function (Blueprint $table) {
+                basic_fields($table, 'icons');
+                $table->string('name')->unique();
+                $table->boolean('is_svg')->default(false);
+                $table->text('content')->nullable();
+            });
+        }
     }
 
     /**

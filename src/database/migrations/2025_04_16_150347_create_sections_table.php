@@ -18,6 +18,7 @@ return new class extends Migration
                 $table->text('title')->nullable();
                 $table->text('subtitle')->nullable();
                 $table->json('misc')->nullable();
+                $table->foreignId('icon_id')->nullable()->constrained('icons');
             });
         }
 

@@ -3,7 +3,6 @@
 namespace Lyre\Content\Filament\Resources;
 
 use Lyre\Content\Filament\Resources\TextResource\Pages;
-use Lyre\Content\Filament\Resources\TextResource\RelationManagers;
 use Lyre\Content\Models\Text;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -11,8 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 
 class TextResource extends Resource
@@ -32,8 +29,7 @@ class TextResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255)
-                    ->disabled()
-                    ->helperText('This field is used to identify the resource on the frontend. Should not be changed.'),
+                    ->helperText('This field is used to identify the resource on the frontend. Edit with caution.'),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
                 TiptapEditor::make('description')
@@ -66,19 +62,9 @@ class TextResource extends Resource
                 Tables\Columns\TextColumn::make('icon')
                     ->formatStateUsing(fn(Text $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

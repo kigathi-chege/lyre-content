@@ -32,8 +32,7 @@ class SectionResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255)
-                    ->disabled()
-                    ->helperText('This represents the name of the frontend section, should not be edited.'),
+                    ->helperText('This represents the name of the frontend section, should be edited with caution.'),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
                 SelectFromGallery::make('files')->label('Featured Images')->multiple(),
@@ -68,9 +67,6 @@ class SectionResource extends Resource
                 Tables\Columns\TextColumn::make('icon')
                     ->formatStateUsing(fn(Section $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ]);
@@ -82,6 +78,7 @@ class SectionResource extends Resource
             RelationManagers\ButtonsRelationManager::class,
             RelationManagers\TextsRelationManager::class,
             RelationManagers\SectionsRelationManager::class,
+            RelationManagers\DataRelationManager::class
         ];
     }
 

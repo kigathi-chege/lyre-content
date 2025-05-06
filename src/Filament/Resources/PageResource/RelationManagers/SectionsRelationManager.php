@@ -8,8 +8,6 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
 
 class SectionsRelationManager extends RelationManager
@@ -43,7 +41,7 @@ class SectionsRelationManager extends RelationManager
                     ->label('View')
                     ->icon('gmdi-visibility')
                     ->color('info')
-                    ->url(fn($record) => route('filament.admin.resources.content.sections.edit', $record->id)),
+                    ->url(fn($record) => route('filament.admin.resources.sections.edit', $record->id)),
                 Tables\Actions\DetachAction::make(),
             ])
             ->bulkActions([

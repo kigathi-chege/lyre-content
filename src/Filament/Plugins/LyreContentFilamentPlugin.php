@@ -25,8 +25,8 @@ class LyreContentFilamentPlugin implements Plugin
         $panel
             ->resources($resources)
             ->plugins([
-                new LyreFileFilamentPlugin(),
-                new LyreFacetFilamentPlugin(),
+                LyreFileFilamentPlugin::make(),
+                LyreFacetFilamentPlugin::make()
             ]);
     }
 

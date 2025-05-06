@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section_sections', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->tinyInteger('order')->default(0);
-            $table->foreignId('parent_id')->constrained('sections')->cascadeOnDelete();
-            $table->foreignId('child_id')->constrained('sections')->cascadeOnDelete();
-        });
+        if (!Schema::hasTable('section_sections')) {
+            Schema::create('section_sections', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->tinyInteger('order')->default(0);
+                $table->foreignId('parent_id')->constrained('sections')->cascadeOnDelete();
+                $table->foreignId('child_id')->constrained('sections')->cascadeOnDelete();
+            });
+        }
     }
 
     /**

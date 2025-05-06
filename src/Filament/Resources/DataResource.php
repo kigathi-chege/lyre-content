@@ -3,15 +3,13 @@
 namespace Lyre\Content\Filament\Resources;
 
 use Lyre\Content\Filament\Resources\DataResource\Pages;
-use Lyre\Content\Filament\Resources\DataResource\RelationManagers;
 use Lyre\Content\Models\Data;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use ValentinMorice\FilamentJsonColumn\JsonColumn;
 
 class DataResource extends Resource
 {
@@ -27,17 +25,27 @@ class DataResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('type_type')
+                Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type_id')
+                    ->maxLength(255)
+                    ->helperText('This field is used to identify the resource on the frontend. Edit with caution.'),
+                Forms\Components\Select::make('section_id')
+                    ->relationship('section', 'name')
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('filters')
+                    ->visible(fn($livewire) => ! $livewire instanceof \Filament\Resources\RelationManagers\RelationManager),
+                Forms\Components\Select::make('type')
+                    ->options(
+                        fn() => collect(get_model_classes())
+                            ->mapWithKeys(fn($class) => [$class => class_basename($class)])
+                            ->toArray()
+                    )
+                    ->searchable(),
+                Forms\Components\TextInput::make('order')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
+                JsonColumn::make('filters')
                     ->required(),
-                Forms\Components\TextInput::make('section_id')
-                    ->required()
-                    ->numeric(),
             ]);
     }
 
@@ -53,17 +61,13 @@ class DataResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('type_type')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type_id')
+                Tables\Columns\TextColumn::make('section.name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('order')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('section_id')
-                    ->numeric()
-                    ->sortable(),
-            ])
-            ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -73,13 +77,6 @@ class DataResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

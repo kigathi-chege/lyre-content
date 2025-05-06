@@ -18,7 +18,7 @@ class Section extends Model
         'misc' => 'array',
     ];
 
-    protected $with = ['sections', 'buttons', 'texts', 'files', 'icon'];
+    protected $with = ['sections', 'buttons', 'texts', 'files', 'icon', 'data'];
 
     public function pages()
     {
@@ -43,5 +43,10 @@ class Section extends Model
     public function icon()
     {
         return $this->belongsTo(Icon::class);
+    }
+
+    public function data()
+    {
+        return $this->hasMany(Data::class, 'section_id');
     }
 }

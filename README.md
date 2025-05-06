@@ -16,6 +16,12 @@ Lyre Content is a [Lyre](https://packagist.org/packages/lyre/lyre) addon for sim
 composer require lyre/content
 ```
 
+### Publish Assets
+
+```bash
+php artisan vendor:publish --provider="Lyre\Content\Providers\LyreContentServiceProvider"
+```
+
 ### Dependencies
 
 Lyre Content depends on [Lyre](https://packagist.org/packages/lyre/lyre) and [Laravel Filament](https://filamentphp.com/). To complete installation, especially if your require the functionalities from Laravel Filament, follow these additional commands:

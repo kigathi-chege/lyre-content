@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('section_buttons', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->tinyInteger('order')->default(0);
-            $table->foreignId('section_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('button_id')->constrained()->cascadeOnDelete();
-        });
+        if (!Schema::hasTable('section_buttons')) {
+            Schema::create('section_buttons', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->tinyInteger('order')->default(0);
+                $table->foreignId('section_id')->constrained()->cascadeOnDelete();
+                $table->foreignId('button_id')->constrained()->cascadeOnDelete();
+            });
+        }
     }
 
     /**
