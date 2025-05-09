@@ -18,6 +18,12 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
     public function all($filterCallback = null, $paginate = true)
     {
         $filterCallback = fn($query) => $query->where('unpublished', '!=', true)->where('published_at', '<=', now());
+        $this->model::setExcludedSerializableColumns(['content']);
         return parent::all($filterCallback, $paginate);
+    }
+
+    public function find($arguments, $filterCallback = null)
+    {
+        return parent::find($arguments, $filterCallback);
     }
 }

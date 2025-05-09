@@ -5,21 +5,23 @@ namespace Lyre\Content\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Lyre\Facet\Models\FacetedEntity;
-use Lyre\Facet\Models\FacetValue;
+use Lyre\Content\Http\Resources\Article as ResourcesArticle;
+use Lyre\Facet\Concerns\HasFacet;
 use Lyre\File\Concerns\HasFile;
+use Lyre\File\Http\Resources\File;
 use Lyre\Model;
 
 class Article extends Model
 {
-    use HasFactory, HasFile;
+    use HasFactory, HasFile, HasFacet;
 
     const ID_COLUMN = 'slug';
     const NAME_COLUMN = 'title';
-
     const SINGLE_FILE = 'true';
+
+    protected $with = ['author', 'facetValues'];
+
+    protected $visible = ['read_time', 'featured_image'];
 
     public function getStatusAttribute()
     {
@@ -36,21 +38,9 @@ class Article extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function facetedEntities(): MorphMany
+    public function getFeaturedImageAttribute()
     {
-        return $this->morphMany(FacetedEntity::class, 'entity');
-    }
-
-    public function facetValues(): HasManyThrough
-    {
-        return $this->hasManyThrough(
-            FacetValue::class,
-            FacetedEntity::class,
-            'entity_id',        // Foreign key on faceted_entities table...
-            'id',               // Foreign key on facet_values table...
-            'id',               // Local key on the articles table...
-            'facet_value_id'    // Local key on the faceted_entities table...
-        )->where('entity_type', Article::class);
+        return File::make($this->files()->where('mimetype', 'like', 'image/%')->first());
     }
 
     public function getReadTimeAttribute()
@@ -62,10 +52,5 @@ class Article extends Model
         $wordsPerMinute = 200;
         $minutes = ceil($wordCount / $wordsPerMinute);
         return $minutes;
-    }
-
-    public static function includeSerializableColumns()
-    {
-        return ['read_time'];
     }
 }
