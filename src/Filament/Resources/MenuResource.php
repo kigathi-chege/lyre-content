@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class MenuResource extends Resource
 {
@@ -82,5 +83,13 @@ class MenuResource extends Resource
             'create' => Pages\CreateMenu::route('/create'),
             'edit' => Pages\EditMenu::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        // $permissions = config('filament-shield.permission_prefixes.resource');
+        // TODO: Kigathi - May 4 2025 - Users should only view this navigation if they have at least one more permission than view and viewAny
+        $usingSpatieRoles = in_array(\Spatie\Permission\Traits\HasRoles::class, class_uses(\App\Models\User::class));
+        return $usingSpatieRoles ? Auth::user()->can('update', new Menu) : true;
     }
 }

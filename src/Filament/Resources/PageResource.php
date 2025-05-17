@@ -143,6 +143,6 @@ class PageResource extends Resource
         // $permissions = config('filament-shield.permission_prefixes.resource');
         // TODO: Kigathi - May 4 2025 - Users should only view this navigation if they have at least one more permission than view and viewAny
         $usingSpatieRoles = in_array(\Spatie\Permission\Traits\HasRoles::class, class_uses(\App\Models\User::class));
-        return $usingSpatieRoles ? Auth::user()->can('update', Auth::user(), Page::class) : true;
+        return $usingSpatieRoles ? Auth::user()->can('update', new Page) : true;
     }
 }
