@@ -41,7 +41,11 @@ class Article extends Model
 
     public function getFeaturedImageAttribute()
     {
-        return File::make($this->files()->where('mimetype', 'like', 'image/%')->first());
+        $featuredImage = $this->files()->where('mimetype', 'like', 'image/%')->first();
+
+        if ($featuredImage) {
+            return File::make($featuredImage);
+        }
     }
 
     public function getReadTimeAttribute()
