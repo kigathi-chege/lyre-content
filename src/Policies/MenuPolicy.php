@@ -2,13 +2,13 @@
 
 namespace Lyre\Content\Policies;
 
-use Lyre\Content\Models\Section;
+use Lyre\Content\Models\Menu;
 use App\Models\User;
 use Lyre\Policy;
 
-class SectionPolicy extends Policy
+class MenuPolicy extends Policy
 {
-    public function __construct(Section $model)
+    public function __construct(Menu $model)
     {
         parent::__construct($model);
     }

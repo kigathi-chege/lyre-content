@@ -10,9 +10,7 @@ class Section extends Model
 {
     use HasFactory, HasFile;
 
-    const NAME_COLUMN = 'title';
-    const ORDER_COLUMN = 'order';
-    const ORDER_DIRECTION = 'desc';
+    const NAME_COLUMN = 'name';
 
     protected $casts = [
         'misc' => 'array',

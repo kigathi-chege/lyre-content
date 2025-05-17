@@ -8,5 +8,7 @@ Route::prefix('api')
         Route::apiResources([
             'articles' => \Lyre\Content\Http\Controllers\ArticleController::class,
             'pages' => \Lyre\Content\Http\Controllers\PageController::class,
+            'sections' => \Lyre\Content\Http\Controllers\SectionController::class,
+            'menu' => \Lyre\Content\Http\Controllers\MenuController::class,
         ]);
     });

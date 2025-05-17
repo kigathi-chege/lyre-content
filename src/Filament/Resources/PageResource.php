@@ -4,6 +4,7 @@ namespace Lyre\Content\Filament\Resources;
 
 use Lyre\Content\Filament\Resources\PageResource\Pages;
 use Lyre\Content\Filament\Resources\PageResource\RelationManagers;
+use Lyre\Facet\Filament\RelationManagers\FacetValuesRelationManager;
 use Lyre\Content\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -35,13 +36,14 @@ class PageResource extends Resource
                                     Forms\Components\TextInput::make('title')
                                         ->required()
                                         ->maxLength(255),
+                                    Forms\Components\TextInput::make('link')
+                                        ->maxLength(255),
                                     TiptapEditor::make('content')
                                         ->columnSpanFull(),
                                     TiptapEditor::make('description')
                                         ->columnSpanFull(),
-                                    Forms\Components\TextInput::make('link')
-                                        ->maxLength(255),
-                                ]),
+                                    Forms\Components\Toggle::make('is_published'),
+                                ])->columns(2),
                             Forms\Components\Tabs\Tab::make('SEO')
                                 ->schema([
                                     Forms\Components\Textarea::make('meta_description')
@@ -122,7 +124,8 @@ class PageResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\SectionsRelationManager::class
+            RelationManagers\SectionsRelationManager::class,
+            FacetValuesRelationManager::class,
         ];
     }
 

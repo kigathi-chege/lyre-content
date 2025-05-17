@@ -5,7 +5,6 @@ namespace Lyre\Content\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Lyre\Content\Http\Resources\Article as ResourcesArticle;
 use Lyre\Facet\Concerns\HasFacet;
 use Lyre\File\Concerns\HasFile;
 use Lyre\File\Http\Resources\File;
@@ -18,10 +17,12 @@ class Article extends Model
     const ID_COLUMN = 'slug';
     const NAME_COLUMN = 'title';
     const SINGLE_FILE = 'true';
+    const ORDER_COLUMN = 'published_at';
+    const ORDER_DIRECTION = 'desc';
 
     protected $with = ['author', 'facetValues'];
 
-    protected $visible = ['read_time', 'featured_image'];
+    protected array $included = ['read_time', 'featured_image'];
 
     public function getStatusAttribute()
     {

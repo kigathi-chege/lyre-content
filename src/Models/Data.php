@@ -13,7 +13,7 @@ class Data extends Model
         'filters' => 'array',
     ];
 
-    protected $visible = ['section_data'];
+    protected array $included = ['section_data'];
 
     protected $hidden = ['created_at', 'updated_at', 'filters'];
 
@@ -38,18 +38,49 @@ class Data extends Model
                 'limit' => $repository->limit((int)$value),
                 'offset' => $repository->offset((int)$value),
                 'unpaginated' => $value ? $repository->unPaginate() : null,
-                'facet' => $repository->relationFilters([
-                    'facet' => ['column' => 'slug', 'value' => $value]
-                ]),
                 default => null,
             };
+        }
+
+        if (array_key_exists('relation', $this->filters)) {
+            $parts = explode(",", $this->filters['relation']);
+            $result = [];
+            $modelInstance = new $model;
+            for ($i = 0; $i < count($parts); $i += 2) {
+                if ($parts[$i]) {
+                    $relatedModel = $modelInstance->{$parts[$i]}();
+                    $relatedModelClass = get_class($relatedModel->getRelated());
+                    $idColumn = $relatedModelClass::ID_COLUMN;
+                    $idTable = (new $relatedModelClass)->getTable();
+                    $result[$parts[$i]] = [
+                        'column' => "$idTable.$idColumn",
+                        'value' => $parts[$i + 1],
+                    ];
+                }
+            }
+
+            $repository->relationFilters($result);
+        }
+
+        $callbacks = null;
+        if (array_key_exists('facet', $this->filters)) {
+            $callbacks = [
+                function ($query) {
+                    $facet = \Lyre\Facet\Models\Facet::with('facetValues')->where('slug', $this->filters['facet'])->first();
+                    $facetValueIds = $facet->facetValues->pluck('id');
+
+                    return $query->whereHas('facetValues', function ($q) use ($facetValueIds) {
+                        $q->whereIn('facet_values.id', $facetValueIds);
+                    });
+                }
+            ];
         }
 
         if (isset($orderByColumn)) {
             $repository->orderBy($orderByColumn, $orderByOrder ?? 'desc');
         }
 
-        $results = $repository->all();
+        $results = $repository->all($callbacks);
 
         return $results;
     }

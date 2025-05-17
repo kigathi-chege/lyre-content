@@ -2,9 +2,9 @@
 
 namespace Lyre\Content\Filament\Resources;
 
-use Lyre\Content\Filament\Resources\ButtonResource\Pages;
-use Lyre\Content\Filament\Resources\ButtonResource\RelationManagers;
-use Lyre\Content\Models\Button;
+use Lyre\Content\Filament\Resources\MenuResource\Pages;
+use Lyre\Content\Filament\Resources\MenuResource\RelationManagers;
+use Lyre\Content\Models\Menu;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,17 +13,16 @@ use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\HtmlString;
 
-class ButtonResource extends Resource
+class MenuResource extends Resource
 {
-    protected static ?string $model = Button::class;
+    protected static ?string $model = Menu::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-stop';
+    protected static ?string $navigationIcon = 'gmdi-line-weight';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Organization';
 
-    protected static ?int $navigationSort = 12;
+    protected static ?int $navigationSort = 50;
 
     public static function form(Form $form): Form
     {
@@ -31,18 +30,11 @@ class ButtonResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255)
-                    ->helperText('This field is used to identify the resource on the frontend. Edit with caution.'),
-                Forms\Components\TextInput::make('text')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
                 TiptapEditor::make('description')
                     ->columnSpanFull(),
-                Forms\Components\Select::make('icon_id')
-                    ->relationship('icon', 'name')
-                    ->searchable()
-                    ->preload(),
             ]);
     }
 
@@ -60,33 +52,35 @@ class ButtonResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('text')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('link')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
-                    ->formatStateUsing(fn(Button $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\MenuItemsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListButtons::route('/'),
-            'edit' => Pages\EditButton::route('/{record}/edit'),
+            'index' => Pages\ListMenus::route('/'),
+            'create' => Pages\CreateMenu::route('/create'),
+            'edit' => Pages\EditMenu::route('/{record}/edit'),
         ];
     }
 }

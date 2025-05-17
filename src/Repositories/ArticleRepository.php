@@ -15,15 +15,15 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
         parent::__construct($model);
     }
 
-    public function all($filterCallback = null, $paginate = true)
+    public function all($callbacks = [], $paginate = true)
     {
-        $filterCallback = fn($query) => $query->where('unpublished', '!=', true)->where('published_at', '<=', now());
+        $callbacks[] = fn($query) => $query->where('unpublished', '!=', true)->where('published_at', '<=', now());
         $this->model::setExcludedSerializableColumns(['content']);
-        return parent::all($filterCallback, $paginate);
+        return parent::all($callbacks, $paginate);
     }
 
-    public function find($arguments, $filterCallback = null)
+    public function find($arguments, $callbacks = [])
     {
-        return parent::find($arguments, $filterCallback);
+        return parent::find($arguments, $callbacks);
     }
 }
