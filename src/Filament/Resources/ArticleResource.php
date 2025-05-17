@@ -34,7 +34,7 @@ class ArticleResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                Forms\Components\TextArea::make('subtitle')
+                Forms\Components\Textarea::make('subtitle')
                     ->maxLength(255)
                     ->columnSpanFull(),
                 SelectFromGallery::make('files')->label('Featured Image'),
