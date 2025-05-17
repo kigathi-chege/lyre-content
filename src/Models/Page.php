@@ -12,8 +12,6 @@ class Page extends Model
 
     const ID_COLUMN = 'slug';
     const NAME_COLUMN = 'title';
-    const ORDER_COLUMN = 'order';
-    const ORDER_DIRECTION = 'asc';
 
     public function sections()
     {
