@@ -56,6 +56,22 @@ class ArticleResource extends Resource
                 Forms\Components\DateTimePicker::make('sent_as_newsletter_at'),
                 TiptapEditor::make('description')
                     ->columnSpanFull(),
+                Forms\Components\Select::make('categories')
+                    ->relationship(
+                        name: 'facetValues',
+                        titleAttribute: 'name',
+                        // modifyQueryUsing: fn(\Illuminate\Database\Eloquent\Builder $query) => $query->withTrashed(),
+                        // TODO: Kigathi - May 18 2025 - This works because Articles is the only entity we are currently using FacetValues on
+                        modifyQueryUsing: fn() => \Lyre\Facet\Models\FacetValue::query(),
+                    )
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
+                    ->saveRelationshipsUsing(static function ($component, $record, $state) {
+                        if (!empty($state)) {
+                            $record->attachFacetValues($state);
+                        }
+                    })
             ]);
     }
 
