@@ -23,6 +23,11 @@ return new class extends Migration
                 $table->dateTime('published_at')->nullable();
                 $table->dateTime('sent_as_newsletter_at')->nullable();
                 $table->foreignId("author_id")->nullable()->constrained("users");
+
+                // NOTE: Kigathi - May 18 2025 - Potential article statuses:
+                // $table->enum('status', ['draft', 'published', 'archived', 'deleted'])->default('draft')->nullable();
+                // This will mean that published_at becomes an automatically updated field
+                // We will also need a more complex scheduling system for future publications
             });
         }
     }
