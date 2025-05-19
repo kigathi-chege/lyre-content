@@ -15,7 +15,7 @@ class Data extends Model
 
     protected array $included = ['section_data'];
 
-    protected $hidden = ['created_at', 'updated_at', 'filters'];
+    protected array $excluded = ['created_at', 'updated_at'];
 
     public function section()
     {

@@ -18,6 +18,18 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
     public function all($callbacks = [], $paginate = true)
     {
         $callbacks[] = fn($query) => $query->where('unpublished', '!=', true)->where('published_at', '<=', now());
+        if (array_key_exists('facet', request()->query())) {
+            $callbacks = [
+                function ($query) {
+                    $facet = \Lyre\Facet\Models\Facet::with('facetValues')->where('slug', request()->query('facet'))->first();
+                    $facetValueIds = $facet->facetValues->pluck('id');
+
+                    return $query->whereHas('facetValues', function ($q) use ($facetValueIds) {
+                        $q->whereIn('facet_values.id', $facetValueIds);
+                    });
+                }
+            ];
+        }
         $this->model::setExcludedSerializableColumns(['content']);
         return parent::all($callbacks, $paginate);
     }
