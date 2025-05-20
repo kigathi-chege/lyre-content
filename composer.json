@@ -19,14 +19,16 @@
     "laravel 12"
   ],
   "license": "MIT",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "minimum-stability": "stable",
   "autoload": {
     "files": [
       "src/utils/helpers.php"
     ],
     "psr-4": {
-      "Lyre\\Content\\": "src/"
+      "Lyre\\Content\\": "src/",
+      "Lyre\\Content\\Database\\Factories\\": "database/factories/",
+      "Lyre\\Content\\Database\\Seeders\\": "database/seeders/"
     },
     "classmap": [
       "src/"
