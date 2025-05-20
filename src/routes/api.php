@@ -1,14 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Lyre\Content\Http\Controllers;
 
 Route::prefix('api')
     ->middleware(\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class)
     ->group(function () {
         Route::apiResources([
-            'articles' => \Lyre\Content\Http\Controllers\ArticleController::class,
-            'pages' => \Lyre\Content\Http\Controllers\PageController::class,
-            'sections' => \Lyre\Content\Http\Controllers\SectionController::class,
-            'menu' => \Lyre\Content\Http\Controllers\MenuController::class,
+            'articles' => Controllers\ArticleController::class,
+            'pages' => Controllers\PageController::class,
+            'sections' => Controllers\SectionController::class,
+            'menu' => Controllers\MenuController::class,
+            'interactions' => Controllers\InteractionController::class,
+            'interactiontypes' => Controllers\InteractionTypeController::class,
         ]);
     });

@@ -3,7 +3,7 @@
 namespace Lyre\Content\Models;
 
 use App\Models\User;
-use App\Models\Interaction;
+use Lyre\Content\Models\Interaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -59,7 +59,7 @@ class Article extends Model
         $grouped = $interactions->groupBy(fn($i) => $i->interactionType?->name);
 
         // Map into structured array
-        return \App\Models\InteractionType::where(['status' => 'active'])->get()->map(function ($type) use ($grouped, $userId) {
+        return \Lyre\Content\Models\InteractionType::where(['status' => 'active'])->get()->map(function ($type) use ($grouped, $userId) {
             $interactions = $grouped->get($type->name, collect());
 
             return [
