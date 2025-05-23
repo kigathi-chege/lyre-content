@@ -68,6 +68,7 @@ class ArticleResource extends Resource
                     ->multiple()
                     ->preload()
                     ->searchable()
+                    ->getOptionLabelFromRecordUsing(fn($record) => "{$record->name} ({$record->facet_name})")
                     ->saveRelationshipsUsing(static function ($component, $record, $state) {
                         if (!empty($state)) {
                             $record->attachFacetValues($state);
