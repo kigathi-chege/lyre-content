@@ -11,6 +11,10 @@ class Button extends Model
 
     protected $with = ['icon'];
 
+    protected $casts = [
+        'misc' => 'array',
+    ];
+
     public function icon()
     {
         return $this->belongsTo(Icon::class);

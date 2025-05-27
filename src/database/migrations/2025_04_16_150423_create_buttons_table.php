@@ -16,7 +16,14 @@ return new class extends Migration
                 basic_fields($table, 'buttons');
                 $table->string('name')->unique();
                 $table->string('text')->nullable();
+                $table->json('misc')->nullable();
                 $table->foreignId('icon_id')->nullable()->constrained('icons');
+            });
+        }
+
+        if (!Schema::hasColumn('buttons', "misc")) {
+            Schema::table('buttons', function (Blueprint $table) {
+                $table->json('misc')->nullable();
             });
         }
     }
