@@ -14,16 +14,28 @@ class SectionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'sections';
 
+    // TODO: Kigathi - June 12 2025 - Understand this function, and extract it for reusability
+    function getSchema(string $resourceClass): array
+    {
+        $fake = new class extends \Filament\Forms\Components\Component implements \Filament\Forms\Contracts\HasForms {
+            use \Filament\Forms\Concerns\InteractsWithForms;
+        };
+
+        $container = \Filament\Forms\Form::make($fake);
+        return $resourceClass::form($container)->getComponents();
+    }
+
     public function form(Form $form): Form
     {
-        return SectionResource::form($form);
+        $schema = $this->getSchema(SectionResource::class);
+        return $form->schema([...$schema, Forms\Components\TextInput::make('order')->numeric()]);
     }
 
     public function table(Table $table): Table
     {
         return $table
             ->recordTitleAttribute('name')
-            ->columns(SectionResource::table($table)->getColumns())
+            ->columns([...SectionResource::table($table)->getColumns(), Tables\Columns\TextColumn::make('order')])
             ->filters([
                 //
             ])
@@ -37,6 +49,7 @@ class SectionsRelationManager extends RelationManager
                     ]),
             ])
             ->actions([
+                Tables\Actions\EditAction::make(),
                 Action::make('view')
                     ->label('View')
                     ->icon('gmdi-visibility')
