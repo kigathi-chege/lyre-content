@@ -5,6 +5,7 @@ namespace Lyre\Content\Policies;
 use Lyre\Content\Models\InteractionType;
 use App\Models\User;
 use Lyre\Policy;
+use Illuminate\Auth\Access\Response;
 
 class InteractionTypePolicy extends Policy
 {
@@ -13,8 +14,8 @@ class InteractionTypePolicy extends Policy
         parent::__construct($model);
     }
 
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user): Response
     {
-        return true;
+        return Response::allow();
     }
 }

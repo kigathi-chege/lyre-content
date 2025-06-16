@@ -5,6 +5,7 @@ namespace Lyre\Content\Policies;
 use Lyre\Content\Models\Article;
 use App\Models\User;
 use Lyre\Policy;
+use Illuminate\Auth\Access\Response;
 
 class ArticlePolicy extends Policy
 {
@@ -13,13 +14,13 @@ class ArticlePolicy extends Policy
         parent::__construct($model);
     }
 
-    public function viewAny(?User $user): bool
+    public function viewAny(?User $user): Response
     {
-        return true;
+        return Response::allow();
     }
 
-    public function view(?User $user, $model): bool
+    public function view(?User $user, $model): Response
     {
-        return true;
+        return Response::allow();
     }
 }

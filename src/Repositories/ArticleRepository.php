@@ -36,6 +36,9 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
 
     public function find($arguments, $callbacks = [])
     {
-        return parent::find($arguments, $callbacks);
+        $articleResource = parent::find($arguments, $callbacks);
+        $articleResource->resource->update(['views' => $articleResource->resource->views + 1]);
+
+        return $articleResource;
     }
 }

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Lyre\Facet\Concerns\HasFacet;
 use Lyre\File\Concerns\HasFile;
-use Lyre\File\Http\Resources\File;
 use Lyre\Model;
 
 class Article extends Model
@@ -71,16 +70,6 @@ class Article extends Model
                     : false,
             ];
         })->toArray();
-    }
-
-
-    public function getFeaturedImageAttribute()
-    {
-        $featuredImage = $this->files()->where('mimetype', 'like', 'image/%')->first();
-
-        if ($featuredImage) {
-            return File::make($featuredImage);
-        }
     }
 
     public function getReadTimeAttribute()
