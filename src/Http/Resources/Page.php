@@ -11,11 +11,4 @@ class Page extends Resource
     {
         parent::__construct($model);
     }
-
-    // public static function loadResources($resource = null): array
-    // {
-    //     return [
-    //         'sections' => Section::class,
-    //     ];
-    // }
 }
