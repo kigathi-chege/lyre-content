@@ -30,6 +30,9 @@ class TextsRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ]);
+            ])
+            ->striped()
+            ->deferLoading()
+            ->defaultSort('created_at', 'desc');
     }
 }

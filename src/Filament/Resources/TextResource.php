@@ -64,7 +64,10 @@ class TextResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ]);
+            ])
+            ->striped()
+            ->deferLoading()
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array

@@ -110,6 +110,8 @@ class ArticleResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->striped()
+            ->deferLoading()
             ->defaultSort('published_at', 'desc');
     }
 

@@ -31,7 +31,10 @@ class DataRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])
+            ->striped()
+            ->deferLoading()
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function mutateFormDataBeforeCreate(array $data): array

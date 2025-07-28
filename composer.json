@@ -19,7 +19,7 @@
     "laravel 12"
   ],
   "license": "MIT",
-  "version": "2.2.15",
+  "version": "2.2.16",
   "minimum-stability": "stable",
   "autoload": {
     "files": [
