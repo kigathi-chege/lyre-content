@@ -37,12 +37,27 @@ class PageResource extends Resource
                                         ->required()
                                         ->maxLength(255),
                                     Forms\Components\TextInput::make('link')
-                                        ->maxLength(255),
+                                        ->maxLength(255)
+                                        ->helperText('Can be a relative or absolute URL.'),
                                     TiptapEditor::make('content')
                                         ->columnSpanFull(),
                                     TiptapEditor::make('description')
                                         ->columnSpanFull(),
-                                    Forms\Components\Toggle::make('is_published'),
+                                    Forms\Components\Fieldset::make('Statuses')
+                                        ->schema([
+                                            Forms\Components\Toggle::make('is_published')
+                                                ->default(true)
+                                                ->helperText('If not published, it will not be visible on the frontend.'),
+                                            Forms\Components\Toggle::make('is_external')
+                                                ->default(false)
+                                                ->reactive()
+                                                ->helperText('If checked, the link will open in a new tab.'),
+                                        ])
+                                        ->columns(['xl' => 5, 'lg' => 4, 'md' => 3, 'sm' => 2, 'xs' => 1]),
+                                    Forms\Components\TextInput::make('external_link')
+                                        ->maxLength(255)
+                                        ->visible(fn(callable $get) => $get('is_external'))
+                                        ->required(fn(callable $get) => $get('is_external')),
                                 ])->columns(2),
                             Forms\Components\Tabs\Tab::make('SEO')
                                 ->schema([

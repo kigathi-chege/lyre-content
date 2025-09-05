@@ -43,7 +43,8 @@ class MenuItemResource extends Resource
                     ->relationship('menu', 'name')
                     ->required()
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->visible(fn($livewire) => ! $livewire instanceof \Filament\Resources\RelationManagers\RelationManager),
                 Forms\Components\Select::make('page_id')
                     ->relationship('page', 'title')
                     ->searchable()

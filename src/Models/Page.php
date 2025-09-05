@@ -17,6 +17,6 @@ class Page extends Model
     {
         return $this->belongsToMany(Section::class, 'page_sections', 'page_id', 'section_id')
             ->withPivot('order')
-            ->orderBy('pivot_order');
+            ->orderByPivot('order');
     }
 }

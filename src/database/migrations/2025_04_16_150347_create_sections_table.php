@@ -45,6 +45,12 @@ return new class extends Migration
                 });
             }
         }
+
+        if (!Schema::hasColumn("sections", "component")) {
+            Schema::table('sections', function (Blueprint $table) {
+                $table->string('component')->nullable();
+            });
+        }
     }
 
     /**

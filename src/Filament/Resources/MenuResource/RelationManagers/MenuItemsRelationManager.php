@@ -25,11 +25,15 @@ class MenuItemsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns(MenuItemResource::table($table)->getColumns())
-            ->filters([
-                //
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ->striped()
             ->deferLoading()

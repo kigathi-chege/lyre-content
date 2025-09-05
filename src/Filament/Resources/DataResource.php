@@ -45,7 +45,7 @@ class DataResource extends Resource
                     ->numeric()
                     ->default(0),
                 JsonColumn::make('filters')
-                    ->required(),
+                    ->default([]),
             ]);
     }
 

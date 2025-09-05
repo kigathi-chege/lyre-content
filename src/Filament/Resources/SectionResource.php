@@ -35,7 +35,8 @@ class SectionResource extends Resource
                     ->helperText('This represents the name of the frontend section, should be edited with caution.'),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255),
-                SelectFromGallery::make('files')->label('Featured Images')->multiple(),
+                Forms\Components\TextInput::make('component')
+                    ->maxLength(255),
                 Forms\Components\Select::make('icon_id')
                     ->relationship('icon', 'name')
                     ->searchable()
@@ -43,6 +44,7 @@ class SectionResource extends Resource
                 TiptapEditor::make('title'),
                 TiptapEditor::make('subtitle'),
                 TiptapEditor::make('description'),
+                SelectFromGallery::make('files')->label('Featured Images')->multiple(),
                 JsonColumn::make('misc'),
 
             ]);
@@ -72,7 +74,8 @@ class SectionResource extends Resource
             ])
             ->striped()
             ->deferLoading()
-            ->defaultSort('created_at', 'desc');
+            // NOTE: Kigathi - September 4 2025 - When we implement custom table names, this will need to be updated
+            ->defaultSort('buttons.created_at', 'desc');
     }
 
     public static function getRelations(): array

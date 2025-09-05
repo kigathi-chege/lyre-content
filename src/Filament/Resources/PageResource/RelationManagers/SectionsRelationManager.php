@@ -2,13 +2,19 @@
 
 namespace Lyre\Content\Filament\Resources\PageResource\RelationManagers;
 
-use Lyre\Content\Filament\Resources\SectionResource;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
+use Lyre\Content\Filament\Resources\SectionResource;
+
+use Filament\Support\Services\RelationshipJoiner;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class SectionsRelationManager extends RelationManager
 {
@@ -42,11 +48,53 @@ class SectionsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
+                    ->recordSelectOptionsQuery(
+                        fn(Builder $query, $livewire) => $query
+                            ->select('sections.id', 'sections.slug', 'sections.name', 'page_sections.order')
+                    )
                     ->form(fn(Tables\Actions\AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\TextInput::make('order')
                             ->numeric(),
-                    ]),
+                    ])
+                    ->action(function (array $arguments, array $data, Form $form, Table $table, $action): void {
+                        /** @var BelongsToMany $relationship */
+                        $relationship = Relation::noConstraints(fn() => $table->getRelationship());
+
+                        $isMultiple = is_array($data['recordId']);
+
+                        $record = $relationship->getRelated()
+                            ->{$isMultiple ? 'whereIn' : 'where'}($relationship->getQualifiedRelatedKeyName(), $data['recordId'])
+                            ->{$isMultiple ? 'get' : 'first'}();
+
+                        if ($record instanceof Model) {
+                            $action->record($record);
+                        }
+
+                        $action->process(function () use ($data, $record, $relationship) {
+                            $relationship->attach(
+                                $record,
+                                Arr::only($data, $relationship->getPivotColumns()),
+                            );
+                        }, [
+                            'relationship' => $relationship,
+                        ]);
+
+                        if ($arguments['another'] ?? false) {
+                            $action->callAfter();
+                            $action->sendSuccessNotification();
+
+                            $action->record(null);
+
+                            $form->fill();
+
+                            $action->halt();
+
+                            return;
+                        }
+
+                        $action->success();
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -64,6 +112,6 @@ class SectionsRelationManager extends RelationManager
             ])
             ->striped()
             ->deferLoading()
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('sections.created_at', 'desc');
     }
 }

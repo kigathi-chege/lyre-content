@@ -25,14 +25,19 @@ class ButtonsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns(ButtonResource::table($table)->getColumns())
-            ->filters([
-                //
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\DeleteBulkAction::make(),
             ])
             ->striped()
             ->deferLoading()
-            ->defaultSort('created_at', 'desc');
+            // NOTE: Kigathi - September 5 2025 - When we add custom table names, this will need to be updated
+            ->defaultSort('buttons.created_at', 'desc');
     }
 }
