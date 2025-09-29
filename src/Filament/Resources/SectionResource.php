@@ -75,7 +75,7 @@ class SectionResource extends Resource
             ->striped()
             ->deferLoading()
             // NOTE: Kigathi - September 4 2025 - When we implement custom table names, this will need to be updated
-            ->defaultSort('buttons.created_at', 'desc');
+            ->defaultSort('sections.created_at', 'desc');
     }
 
     public static function getRelations(): array
