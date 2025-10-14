@@ -11,18 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('buttons')) {
-            Schema::create('buttons', function (Blueprint $table) {
-                basic_fields($table, 'buttons');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'buttons';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->string('name')->unique();
                 $table->string('text')->nullable();
                 $table->json('misc')->nullable();
-                $table->foreignId('icon_id')->nullable()->constrained('icons');
+                $table->foreignId('icon_id')->nullable()->constrained($prefix . 'icons');
             });
         }
 
-        if (!Schema::hasColumn('buttons', "misc")) {
-            Schema::table('buttons', function (Blueprint $table) {
+        if (!Schema::hasColumn($tableName, "misc")) {
+            Schema::table($tableName, function (Blueprint $table) {
                 $table->json('misc')->nullable();
             });
         }
@@ -33,6 +36,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('buttons');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'buttons';
+
+        Schema::dropIfExists($tableName);
     }
 };

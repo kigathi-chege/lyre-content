@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('menu_items')) {
-            Schema::create('menu_items', function (Blueprint $table) {
-                basic_fields($table, 'menu_items');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'menu_items';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->string('name')->nullable();
                 $table->tinyInteger('order')->default(0);
-                $table->foreignId('menu_id')->nullable()->constrained('menus')->cascadeOnDelete();
-                $table->foreignId('page_id')->nullable()->constrained('pages')->cascadeOnDelete();
-                $table->foreignId('parent_id')->nullable()->constrained('menu_items')->cascadeOnDelete();
+                $table->foreignId('menu_id')->nullable()->constrained($prefix . 'menus')->cascadeOnDelete();
+                $table->foreignId('page_id')->nullable()->constrained($prefix . 'pages')->cascadeOnDelete();
+                $table->foreignId('parent_id')->nullable()->constrained($prefix . 'menu_items')->cascadeOnDelete();
                 $table->boolean('is_external')->default(false);
-                $table->foreignId('icon_id')->nullable()->constrained('icons');
+                $table->foreignId('icon_id')->nullable()->constrained($prefix . 'icons');
             });
         }
     }
@@ -30,6 +33,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menu_items');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'menu_items';
+
+        Schema::dropIfExists($tableName);
     }
 };

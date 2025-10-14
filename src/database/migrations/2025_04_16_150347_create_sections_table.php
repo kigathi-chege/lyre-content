@@ -11,43 +11,46 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('sections')) {
-            Schema::create('sections', function (Blueprint $table) {
-                basic_fields($table, 'sections');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'sections';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->text('name')->comment("This refers to the name of the frontend component");
                 $table->text('title')->nullable();
                 $table->text('subtitle')->nullable();
                 $table->json('misc')->nullable();
-                $table->foreignId('icon_id')->nullable()->constrained('icons');
+                $table->foreignId('icon_id')->nullable()->constrained($prefix . 'icons');
             });
         }
 
-        if (!Schema::hasColumn('sections', 'icon_id')) {
-            Schema::table('sections', function (Blueprint $table) {
-                $table->foreignId('icon_id')->nullable()->constrained('icons');
+        if (!Schema::hasColumn($tableName, 'icon_id')) {
+            Schema::table($tableName, function (Blueprint $table) use ($prefix) {
+                $table->foreignId('icon_id')->nullable()->constrained($prefix . 'icons');
             });
         }
 
-        if (Schema::hasColumn("sections", "title")) {
-            $columnType = Schema::getColumnType('sections', 'title');
+        if (Schema::hasColumn($tableName, "title")) {
+            $columnType = Schema::getColumnType($tableName, 'title');
             if ($columnType == 'varchar') {
-                Schema::table('sections', function (Blueprint $table) {
+                Schema::table($tableName, function (Blueprint $table) {
                     $table->text('title')->nullable()->change();
                 });
             }
         }
 
-        if (Schema::hasColumn("sections", "subtitle")) {
-            $columnType = Schema::getColumnType('sections', 'subtitle');
+        if (Schema::hasColumn($tableName, "subtitle")) {
+            $columnType = Schema::getColumnType($tableName, 'subtitle');
             if ($columnType == 'varchar') {
-                Schema::table('sections', function (Blueprint $table) {
+                Schema::table($tableName, function (Blueprint $table) {
                     $table->text('subtitle')->nullable()->change();
                 });
             }
         }
 
-        if (!Schema::hasColumn("sections", "component")) {
-            Schema::table('sections', function (Blueprint $table) {
+        if (!Schema::hasColumn($tableName, "component")) {
+            Schema::table($tableName, function (Blueprint $table) {
                 $table->string('component')->nullable();
             });
         }
@@ -58,6 +61,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'sections';
+
+        Schema::dropIfExists($tableName);
     }
 };

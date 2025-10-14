@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('icons')) {
-            Schema::create('icons', function (Blueprint $table) {
-                basic_fields($table, 'icons');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'icons';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName) {
+                basic_fields($table, $tableName);
                 $table->string('name')->unique();
                 $table->boolean('is_svg')->default(false);
                 $table->text('content')->nullable();
@@ -26,6 +29,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('icons');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'icons';
+
+        Schema::dropIfExists($tableName);
     }
 };

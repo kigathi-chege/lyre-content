@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('menus')) {
-            Schema::create('menus', function (Blueprint $table) {
-                basic_fields($table, 'menus');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'menus';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->string('name')->unique();
             });
         }
@@ -24,6 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'menus';
+
+        Schema::dropIfExists($tableName);
     }
 };

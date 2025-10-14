@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('section_sections')) {
-            Schema::create('section_sections', function (Blueprint $table) {
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'section_sections';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
                 $table->id();
                 $table->timestamps();
                 $table->tinyInteger('order')->default(0);
-                $table->foreignId('parent_id')->constrained('sections')->cascadeOnDelete();
-                $table->foreignId('child_id')->constrained('sections')->cascadeOnDelete();
+                $table->foreignId('parent_id')->constrained($prefix . 'sections')->cascadeOnDelete();
+                $table->foreignId('child_id')->constrained($prefix . 'sections')->cascadeOnDelete();
             });
         }
     }
@@ -27,6 +30,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('section_sections');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'section_sections';
+
+        Schema::dropIfExists($tableName);
     }
 };

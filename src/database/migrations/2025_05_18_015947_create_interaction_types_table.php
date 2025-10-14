@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('interaction_types')) {
-            Schema::create('interaction_types', function (Blueprint $table) {
-                basic_fields($table, 'interaction_types');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'interaction_types';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->string('name')->unique();
-                $table->foreignId('antonym_id')->nullable()->constrained('interaction_types')->onDelete('set null');
-                $table->foreignId('icon_id')->nullable()->constrained('icons')->onDelete('set null');
+                $table->foreignId('antonym_id')->nullable()->constrained($prefix . 'interaction_types')->onDelete('set null');
+                $table->foreignId('icon_id')->nullable()->constrained($prefix . 'icons')->onDelete('set null');
             });
         }
 
-        if (!Schema::hasColumn('interaction_types', 'status')) {
-            Schema::table('interaction_types', function (Blueprint $table) {
+        if (!Schema::hasColumn($tableName, 'status')) {
+            Schema::table($tableName, function (Blueprint $table) {
                 $table->enum('status', ['active', 'inactive'])->default('active')->nullable();
             });
         }
@@ -32,6 +35,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('interaction_types');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'interaction_types';
+
+        Schema::dropIfExists($tableName);
     }
 };

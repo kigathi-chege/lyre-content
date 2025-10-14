@@ -1,27 +1,5 @@
 <?php
 
-if (!function_exists('basic_fields')) {
-    function basic_fields(Illuminate\Database\Schema\Blueprint $table, $tableName)
-    {
-        if (!\Illuminate\Support\Facades\Schema::hasColumn($tableName, 'id')) {
-            $table->id();
-        }
-        if (!\Illuminate\Support\Facades\Schema::hasColumn($tableName, 'created_at') && !\Illuminate\Support\Facades\Schema::hasColumn($tableName, 'updated_at')) {
-            $table->timestamps();
-        }
-        if (!\Illuminate\Support\Facades\Schema::hasColumn($tableName, 'link')) {
-            $table->string('link')->nullable();
-        }
-        if (!\Illuminate\Support\Facades\Schema::hasColumn($tableName, 'slug')) {
-            $table->string('slug')->unique()->index();
-        }
-        if (!\Illuminate\Support\Facades\Schema::hasColumn($tableName, 'description')) {
-            $table->text('description')->nullable();
-        }
-    }
-}
-
-
 if (!function_exists('get_file_name_without_extension')) {
     function get_file_name_without_extension($file, $name = null)
     {

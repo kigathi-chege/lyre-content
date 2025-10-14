@@ -11,38 +11,41 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('data')) {
-            Schema::create('data', function (Blueprint $table) {
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'data';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
                 $table->id();
                 $table->timestamps();
                 $table->morphs('type');
                 $table->json('filters');
 
-                $table->foreignId('section_id')->constrained()->cascadeOnDelete();
+                $table->foreignId('section_id')->constrained($prefix . 'sections')->cascadeOnDelete();
             });
         }
 
-        if (Schema::hasTable('data')) {
-            Schema::table('data', function (Blueprint $table) {
+        if (Schema::hasTable($tableName)) {
+            Schema::table($tableName, function (Blueprint $table) {
                 if (Schema::hasColumn('data', 'type_type') && Schema::hasColumn('data', 'type_id')) {
                     $table->dropMorphs('type');
                 }
             });
 
-            if (!Schema::hasColumn('data', 'type')) {
-                Schema::table('data', function (Blueprint $table) {
+            if (!Schema::hasColumn($tableName, 'type')) {
+                Schema::table($tableName, function (Blueprint $table) {
                     $table->string('type');
                 });
             }
 
-            if (!Schema::hasColumn('data', 'name')) {
-                Schema::table('data', function (Blueprint $table) {
+            if (!Schema::hasColumn($tableName, 'name')) {
+                Schema::table($tableName, function (Blueprint $table) {
                     $table->string('name');
                 });
             }
 
-            if (!Schema::hasColumn('data', 'order')) {
-                Schema::table('data', function (Blueprint $table) {
+            if (!Schema::hasColumn($tableName, 'order')) {
+                Schema::table($tableName, function (Blueprint $table) {
                     $table->tinyInteger('order')->default(0);
                 });
             }
@@ -54,6 +57,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'data';
+
+        Schema::dropIfExists($tableName);
     }
 };

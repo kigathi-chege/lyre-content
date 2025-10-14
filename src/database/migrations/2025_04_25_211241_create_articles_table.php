@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('articles')) {
-            Schema::create('articles', function (Blueprint $table) {
-                basic_fields($table, 'articles');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'articles';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->string('title');
                 $table->string('subtitle')->nullable();
                 $table->text('content');
@@ -37,6 +40,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('articles');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'articles';
+
+        Schema::dropIfExists($tableName);
     }
 };

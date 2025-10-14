@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('pages')) {
-            Schema::create('pages', function (Blueprint $table) {
-                basic_fields($table, 'pages');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'pages';
+
+        if (!Schema::hasTable($tableName)) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+                basic_fields($table, $tableName);
                 $table->string('title')->unique();
                 $table->text('content')->nullable();
                 $table->integer('order')->default(0);
@@ -32,12 +35,12 @@ return new class extends Migration
                 $table->json('schema_markup')->nullable();
                 $table->string('robots_meta_tag')->default('index');
                 $table->integer('total_views')->default(0);
-                $table->foreignId('icon_id')->nullable()->constrained('icons');
+                $table->foreignId('icon_id')->nullable()->constrained($prefix . 'icons');
             });
         }
 
-        if (!Schema::hasColumn('pages', 'parent_id')) {
-            Schema::table('pages', function (Blueprint $table) {
+        if (!Schema::hasColumn($tableName, 'parent_id')) {
+            Schema::table($tableName, function (Blueprint $table) {
                 $table->foreignId('parent_id')->nullable()->constrained('pages')->onDelete('set null');
             });
         }
@@ -48,6 +51,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pages');
+        $prefix = config('lyre.table_prefix');
+        $tableName = $prefix . 'pages';
+
+        Schema::dropIfExists($tableName);
     }
 };
