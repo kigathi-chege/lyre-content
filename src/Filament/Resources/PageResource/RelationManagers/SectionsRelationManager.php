@@ -49,8 +49,11 @@ class SectionsRelationManager extends RelationManager
                 Tables\Actions\AttachAction::make()
                     ->preloadRecordSelect()
                     ->recordSelectOptionsQuery(
-                        fn(Builder $query, $livewire) => $query
-                            ->select('sections.id', 'sections.slug', 'sections.name', 'page_sections.order')
+                        function (Builder $query, $livewire) {
+                            $prefix = config('lyre.table_prefix');
+                            return  $query
+                                ->select("{$prefix}sections.id", "{$prefix}sections.slug", "{$prefix}sections.name", "{$prefix}page_sections.order");
+                        }
                     )
                     ->form(fn(Tables\Actions\AttachAction $action): array => [
                         $action->getRecordSelect(),

@@ -70,7 +70,8 @@ class Data extends Model
                     $facetValueIds = $facet->facetValues->pluck('id');
 
                     return $query->whereHas('facetValues', function ($q) use ($facetValueIds) {
-                        $q->whereIn('facet_values.id', $facetValueIds);
+                        $prefix = config('lyre.table_prefix');
+                        $q->whereIn("{$prefix}facet_values.id", $facetValueIds);
                     });
                 }
             ];

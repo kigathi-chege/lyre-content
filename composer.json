@@ -19,7 +19,7 @@
     "laravel 12"
   ],
   "license": "MIT",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "minimum-stability": "stable",
   "autoload": {
     "files": [
@@ -42,12 +42,7 @@
   ],
   "require": {
     "php": "^8.2",
-    "awcodes/filament-tiptap-editor": "^3.5",
-    "filament/filament": "^3.3",
-    "bezhansalleh/filament-shield": "202505041448.x-dev",
-    "codeat3/blade-google-material-design-icons": "^1.20",
     "intervention/image-laravel": "^1.5",
-    "valentin-morice/filament-json-column": "^2.0",
     "lyre/lyre": "^1.1",
     "lyre/file": "^1.0",
     "lyre/facet": "^1.0"

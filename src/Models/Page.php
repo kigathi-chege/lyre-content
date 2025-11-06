@@ -15,7 +15,8 @@ class Page extends Model
 
     public function sections()
     {
-        return $this->belongsToMany(Section::class, 'page_sections', 'page_id', 'section_id')
+        $prefix = config('lyre.table_prefix');
+        return $this->belongsToMany(Section::class, "{$prefix}page_sections", 'page_id', 'section_id')
             ->withPivot('order')
             ->orderByPivot('order');
     }
