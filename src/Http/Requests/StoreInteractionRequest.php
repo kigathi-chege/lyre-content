@@ -20,7 +20,7 @@ class StoreInteractionRequest extends Request
             // 'interaction_type_id' => ['required', 'integer', 'exists:interaction_types,id'],
             'type' => ['required', 'string', "in:{$interactionTypes}"],
             'content' => ['nullable', 'string'],
-            'entity' => ['required', 'string'],
+            'entity' => ['required', 'regex:/^[0-9]+$|^[A-Za-z0-9_\- ]+$/'],
             'entity_type' => ['required', 'string', "in:{$entityTypes}"],
         ];
     }

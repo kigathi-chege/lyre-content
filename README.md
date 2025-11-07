@@ -57,3 +57,7 @@ You need to change your minimum-stability level to `dev` on your composer.json l
 ```
 
 This is because Lyre Content depends on a fork of [FilamentShield](https://github.com/bezhanSalleh/filament-shield/pull/537) that has not yet been merged to [main](https://github.com/bezhanSalleh/filament-shield).
+
+```bash
+php artisan db:seed --class="Lyre\\Content\\Database\\Seeders\\InteractionTypeSeeder"
+```
