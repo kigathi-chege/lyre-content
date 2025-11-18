@@ -26,6 +26,8 @@ return new class extends Migration
                 $table->dateTime('published_at')->nullable();
                 $table->dateTime('sent_as_newsletter_at')->nullable();
                 $table->foreignId("author_id")->nullable()->constrained("users");
+                $table->foreignId("parent_id")->nullable()->constrained($tableName)->cascadeOnDelete();
+                $table->unsignedInteger('order')->default(0);
 
                 // NOTE: Kigathi - May 18 2025 - Potential article statuses:
                 // $table->enum('status', ['draft', 'published', 'archived', 'deleted'])->default('draft')->nullable();
