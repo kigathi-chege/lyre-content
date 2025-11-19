@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Middleware\EnsureGuestUser;
+use Lyre\Guest\Http\Middleware\EnsureGuestUser;
 use Illuminate\Support\Facades\Route;
 use Lyre\Content\Http\Controllers;
 
 Route::prefix('api')
-    ->middleware(\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class)
+    ->middleware(['api', \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class])
     ->group(function () {
         Route::apiResources([
             'articles' => Controllers\ArticleController::class,
