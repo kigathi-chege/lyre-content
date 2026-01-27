@@ -716,6 +716,8 @@ trait HandlesArticleImages
                 'file_id'    => $fileModel->id,
             ]);
         } catch (\Exception $e) {
+            // TODO: Kigathi - January 28 2026 - Fix this error:
+            // [2026-01-27 19:45:56] production.ERROR: ❌ Failed to attach featured image {"article_id":54,"error":"Call to undefined method Illuminate\\Database\\Eloquent\\Relations\\HasManyThrough::detach()"} 
             Log::error('❌ Failed to attach featured image', [
                 'article_id' => $article->id,
                 'error'      => $e->getMessage(),
