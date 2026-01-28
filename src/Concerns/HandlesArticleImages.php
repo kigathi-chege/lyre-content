@@ -703,7 +703,6 @@ trait HandlesArticleImages
                 throw new \Exception('Failed to upload image from URL');
             }
 
-            // Associate with tenant
             $config = $this->getConfig();
             $this->associateFileWithTenant($fileModel, $config['tenant_id'] ?? null);
 
