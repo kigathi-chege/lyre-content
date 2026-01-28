@@ -61,6 +61,8 @@ trait InteractsWithOpenAI
 
     /**
      * Call OpenAI Chat API with automatic JSON mode support
+     * 
+     * TODO: Kigathi - January 28 2026 - Add credit tracking here to ensure we follow billing
      */
     protected function callOpenAI(array $messages, array $options = []): array
     {
