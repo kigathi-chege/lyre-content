@@ -707,7 +707,6 @@ trait HandlesArticleImages
             $config = $this->getConfig();
             $this->associateFileWithTenant($fileModel, $config['tenant_id'] ?? null);
 
-            // Attach to article (single file, so we detach existing first)
             $article->attachFile($fileModel->id);
 
             Log::info('✅ Featured image attached', [
