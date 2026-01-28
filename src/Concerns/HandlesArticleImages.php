@@ -526,52 +526,7 @@ trait HandlesArticleImages
                 $fileModel = null;
                 $altText = $imageDataItem;
 
-                if ($imageSource === 'openverse') {
-                    // Search OpenVerse for image
-                    $openVerseImage = $this->searchOpenVerseImage($imageDataItem);
-
-                    if ($openVerseImage) {
-                        $fileModel = $this->downloadOpenVerseImage($openVerseImage, "inline-image-{$index}");
-                        $altText = $openVerseImage['title'] ?? $imageDataItem;
-                    }
-
-                    // Fallback to Unsplash if OpenVerse fails
-                    if (!$fileModel) {
-                        Log::info('📸 OpenVerse failed, trying Unsplash as fallback', ['query' => $imageDataItem]);
-                        $unsplashImage = $this->searchUnsplashImage($imageDataItem);
-
-                        if ($unsplashImage) {
-                            $fileModel = $this->downloadUnsplashImage($unsplashImage, "inline-image-{$index}");
-                            $altText = $unsplashImage['description'] ?? $imageDataItem;
-                        }
-                    }
-                } elseif ($imageSource === 'unsplash') {
-                    // Search Unsplash for image
-                    $unsplashImage = $this->searchUnsplashImage($imageDataItem);
-
-                    if ($unsplashImage) {
-                        $fileModel = $this->downloadUnsplashImage($unsplashImage, "inline-image-{$index}");
-                        $altText = $unsplashImage['description'] ?? $imageDataItem;
-                    }
-
-                    // Fallback to OpenVerse if Unsplash fails
-                    if (!$fileModel) {
-                        Log::info('📸 Unsplash failed, trying OpenVerse as fallback', ['query' => $imageDataItem]);
-                        $openVerseImage = $this->searchOpenVerseImage($imageDataItem);
-
-                        if ($openVerseImage) {
-                            $fileModel = $this->downloadOpenVerseImage($openVerseImage, "inline-image-{$index}");
-                            $altText = $openVerseImage['title'] ?? $imageDataItem;
-                        }
-                    }
-                } else {
-                    // Generate image with DALL-E
-                    $imageUrl = $this->generateImage($imageDataItem);
-
-                    if ($imageUrl) {
-                        $fileModel = $this->uploadDalleImage($imageUrl, "inline-image-{$index}");
-                    }
-                }
+                $fileModel = $this->getImageWithFallback($imageSource, $imageDataItem);
 
                 if ($fileModel) {
                     // Create HTML for image using file link
@@ -620,48 +575,7 @@ trait HandlesArticleImages
 
             $fileModel = null;
 
-            if ($imageSource === 'openverse') {
-                // Search OpenVerse for featured image
-                $openVerseImage = $this->searchOpenVerseImage($featuredImageData);
-
-                if ($openVerseImage) {
-                    $fileModel = $this->downloadOpenVerseImage($openVerseImage, 'featured-image');
-                }
-
-                // Fallback to Unsplash if OpenVerse fails
-                if (!$fileModel) {
-                    Log::info('📸 OpenVerse failed for featured image, trying Unsplash as fallback');
-                    $unsplashImage = $this->searchUnsplashImage($featuredImageData);
-
-                    if ($unsplashImage) {
-                        $fileModel = $this->downloadUnsplashImage($unsplashImage, 'featured-image');
-                    }
-                }
-            } elseif ($imageSource === 'unsplash') {
-                // Search Unsplash for featured image
-                $unsplashImage = $this->searchUnsplashImage($featuredImageData);
-
-                if ($unsplashImage) {
-                    $fileModel = $this->downloadUnsplashImage($unsplashImage, 'featured-image');
-                }
-
-                // Fallback to OpenVerse if Unsplash fails
-                if (!$fileModel) {
-                    Log::info('📸 Unsplash failed for featured image, trying OpenVerse as fallback');
-                    $openVerseImage = $this->searchOpenVerseImage($featuredImageData);
-
-                    if ($openVerseImage) {
-                        $fileModel = $this->downloadOpenVerseImage($openVerseImage, 'featured-image');
-                    }
-                }
-            } else {
-                // Generate featured image with DALL-E
-                $imageUrl = $this->generateImage($featuredImageData);
-
-                if ($imageUrl) {
-                    $fileModel = $this->uploadDalleImage($imageUrl, 'featured-image');
-                }
-            }
+            $fileModel = $this->getImageWithFallback($imageSource, $featuredImageData);
 
             if ($fileModel) {
                 $articleData['featured_image']     = $fileModel;
@@ -675,6 +589,54 @@ trait HandlesArticleImages
         }
 
         return $articleData;
+    }
+
+    protected function getImageWithFallback(string $imageSource, $featuredImageData)
+    {
+        if ($imageSource === 'openverse') {
+            // Search OpenVerse for featured image
+            $openVerseImage = $this->searchOpenVerseImage($featuredImageData);
+
+            if ($openVerseImage) {
+                $fileModel = $this->downloadOpenVerseImage($openVerseImage, 'featured-image');
+            }
+
+            // Fallback to Unsplash if OpenVerse fails
+            if (!$fileModel) {
+                Log::info('📸 OpenVerse failed for featured image, trying Unsplash as fallback');
+                $unsplashImage = $this->searchUnsplashImage($featuredImageData);
+
+                if ($unsplashImage) {
+                    $fileModel = $this->downloadUnsplashImage($unsplashImage, 'featured-image');
+                }
+            }
+        } elseif ($imageSource === 'unsplash') {
+            // Search Unsplash for featured image
+            $unsplashImage = $this->searchUnsplashImage($featuredImageData);
+
+            if ($unsplashImage) {
+                $fileModel = $this->downloadUnsplashImage($unsplashImage, 'featured-image');
+            }
+
+            // Fallback to OpenVerse if Unsplash fails
+            if (!$fileModel) {
+                Log::info('📸 Unsplash failed for featured image, trying OpenVerse as fallback');
+                $openVerseImage = $this->searchOpenVerseImage($featuredImageData);
+
+                if ($openVerseImage) {
+                    $fileModel = $this->downloadOpenVerseImage($openVerseImage, 'featured-image');
+                }
+            }
+        } else {
+            // Generate featured image with DALL-E
+            $imageUrl = $this->generateImage($featuredImageData);
+
+            if ($imageUrl) {
+                $fileModel = $this->uploadDalleImage($imageUrl, 'featured-image');
+            }
+        }
+
+        return $fileModel;
     }
 
     /**
