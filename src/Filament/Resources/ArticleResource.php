@@ -9,7 +9,7 @@ use Lyre\Content\Filament\Actions\FormatArticleWithAIAction;
 use Lyre\Content\Filament\Actions\FormatSingleArticleWithAIAction;
 use Lyre\Content\Models\Article;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,15 +21,19 @@ class ArticleResource extends Resource
 {
     protected static ?string $model = Article::class;
 
-    protected static ?string $navigationIcon = 'gmdi-newspaper';
+    protected static \BackedEnum|string|null $navigationIcon = 'gmdi-newspaper';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?string $navigationLabel = 'Blog';
 
     protected static ?int $navigationSort = 18;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -151,12 +155,12 @@ class ArticleResource extends Resource
             ])
             ->actions([
                 FormatSingleArticleWithAIAction::make(),
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+                \Filament\Actions\BulkActionGroup::make([
                     FormatArticleWithAIAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->headerActions([])

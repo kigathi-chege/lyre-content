@@ -4,7 +4,7 @@ namespace Lyre\Content\Filament\Resources\SectionResource\RelationManagers;
 
 use Lyre\Content\Filament\Resources\SectionResource;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,7 +15,7 @@ class SectionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'sections';
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return SectionResource::form($form);
     }
@@ -29,7 +29,7 @@ class SectionsRelationManager extends RelationManager
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->striped()
             ->deferLoading()

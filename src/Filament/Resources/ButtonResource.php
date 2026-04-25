@@ -6,7 +6,7 @@ use Lyre\Content\Filament\Resources\ButtonResource\Pages;
 use Lyre\Content\Filament\Resources\ButtonResource\RelationManagers;
 use Lyre\Content\Models\Button;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,13 +19,17 @@ class ButtonResource extends Resource
 {
     protected static ?string $model = Button::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-stop';
+    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-stop';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?int $navigationSort = 12;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -71,7 +75,7 @@ class ButtonResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->striped()
             ->deferLoading()

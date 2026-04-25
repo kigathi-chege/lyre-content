@@ -40,8 +40,8 @@ return new class extends Migration
         }
 
         if (!Schema::hasColumn($tableName, 'parent_id')) {
-            Schema::table($tableName, function (Blueprint $table) {
-                $table->foreignId('parent_id')->nullable()->constrained('pages')->onDelete('set null');
+            Schema::table($tableName, function (Blueprint $table) use ($tableName) {
+                $table->foreignId('parent_id')->nullable()->constrained($tableName)->nullOnDelete();
             });
         }
     }

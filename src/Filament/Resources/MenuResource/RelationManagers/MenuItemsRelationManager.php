@@ -4,7 +4,7 @@ namespace Lyre\Content\Filament\Resources\MenuResource\RelationManagers;
 
 use Lyre\Content\Filament\Resources\MenuItemResource;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,7 +15,7 @@ class MenuItemsRelationManager extends RelationManager
 {
     protected static string $relationship = 'menuItems';
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return MenuItemResource::form($form);
     }
@@ -26,14 +26,14 @@ class MenuItemsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns(MenuItemResource::table($table)->getColumns())
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                \Filament\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\DeleteBulkAction::make(),
             ])
             ->striped()
             ->deferLoading()

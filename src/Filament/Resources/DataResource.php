@@ -5,7 +5,7 @@ namespace Lyre\Content\Filament\Resources;
 use Lyre\Content\Filament\Resources\DataResource\Pages;
 use Lyre\Content\Models\Data;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,13 +15,17 @@ class DataResource extends Resource
 {
     protected static ?string $model = Data::class;
 
-    protected static ?string $navigationIcon = 'gmdi-cloud';
+    protected static \BackedEnum|string|null $navigationIcon = 'gmdi-cloud';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?int $navigationSort = 13;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -70,11 +74,11 @@ class DataResource extends Resource
                     ->sortable(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

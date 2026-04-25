@@ -4,11 +4,11 @@ namespace Lyre\Content\Filament\Resources\PageResource\RelationManagers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 use Lyre\Content\Filament\Resources\SectionResource;
 
 use Filament\Support\Services\RelationshipJoiner;
@@ -21,19 +21,19 @@ class SectionsRelationManager extends RelationManager
     protected static string $relationship = 'sections';
 
     // TODO: Kigathi - June 12 2025 - Understand this function, and extract it for reusability
-    function getSchema(string $resourceClass): array
+    protected function getResourceSchemaComponents(string $resourceClass): array
     {
         $fake = new class extends \Filament\Forms\Components\Component implements \Filament\Forms\Contracts\HasForms {
             use \Filament\Forms\Concerns\InteractsWithForms;
         };
 
-        $container = \Filament\Forms\Form::make($fake);
+        $container = \Filament\Schemas\Schema::make($fake);
         return $resourceClass::form($container)->getComponents();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
-        $schema = $this->getSchema(SectionResource::class);
+        $schema = $this->getResourceSchemaComponents(SectionResource::class);
         return $form->schema([...$schema, Forms\Components\TextInput::make('order')->numeric()]);
     }
 
@@ -46,7 +46,7 @@ class SectionsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
+                \Filament\Actions\AttachAction::make()
                     ->preloadRecordSelect()
                     ->recordSelectOptionsQuery(
                         function (Builder $query, $livewire) {
@@ -55,7 +55,7 @@ class SectionsRelationManager extends RelationManager
                                 ->select("{$prefix}sections.id", "{$prefix}sections.slug", "{$prefix}sections.name", "{$prefix}page_sections.order");
                         }
                     )
-                    ->form(fn(Tables\Actions\AttachAction $action): array => [
+                    ->form(fn(\Filament\Actions\AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\TextInput::make('order')
                             ->numeric(),
@@ -100,17 +100,17 @@ class SectionsRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
                 Action::make('view')
                     ->label('View')
                     ->icon('gmdi-visibility')
                     ->color('info')
                     ->url(fn($record) => route('filament.admin.resources.sections.edit', $record->id)),
-                Tables\Actions\DetachAction::make(),
+                \Filament\Actions\DetachAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

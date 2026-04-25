@@ -6,7 +6,7 @@ use Lyre\Content\Filament\Resources\InteractionTypeResource\Pages;
 use Lyre\Content\Filament\Resources\InteractionTypeResource\RelationManagers;
 use Lyre\Content\Models\InteractionType;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,13 +20,17 @@ class InteractionTypeResource extends Resource
 {
     protected static ?string $model = InteractionType::class;
 
-    protected static ?string $navigationIcon = 'gmdi-gesture';
+    protected static \BackedEnum|string|null $navigationIcon = 'gmdi-gesture';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?int $navigationSort = 20;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -82,11 +86,11 @@ class InteractionTypeResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\BulkActionGroup::make([
+                    \Filament\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->striped()

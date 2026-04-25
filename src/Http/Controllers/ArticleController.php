@@ -15,4 +15,16 @@ class ArticleController extends Controller
         $modelConfig = $model->generateConfig();
         parent::__construct($modelConfig, $modelRepository);
     }
+
+    public function publish(string $slug)
+    {
+        $this->localAuthorize('update', $slug);
+        
+        return __response(
+            true,
+            'Article published successfully',
+            $this->modelRepository->publish($slug),
+            200
+        );
+    }
 }

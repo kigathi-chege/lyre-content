@@ -26,8 +26,8 @@ return new class extends Migration
         }
 
         if (Schema::hasTable($tableName)) {
-            Schema::table($tableName, function (Blueprint $table) {
-                if (Schema::hasColumn('data', 'type_type') && Schema::hasColumn('data', 'type_id')) {
+            Schema::table($tableName, function (Blueprint $table) use ($tableName) {
+                if (Schema::hasColumn($tableName, 'type_type') && Schema::hasColumn($tableName, 'type_id')) {
                     $table->dropMorphs('type');
                 }
             });

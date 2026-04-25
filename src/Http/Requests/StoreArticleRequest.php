@@ -14,7 +14,13 @@ class StoreArticleRequest extends Request
     public function rules(): array
     {
         return [
-            //
+            "title" => "string|required",
+            "subtitle" => "string|required",
+            "content" => "string|required",
+            "unpublished" => "boolean",
+            "published_at" => "date",
+            "files" => "nullable|array",
+            "files.*" => "integer",
         ];
     }
 }

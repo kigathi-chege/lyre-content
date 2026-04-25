@@ -14,7 +14,13 @@ class UpdateArticleRequest extends Request
     public function rules(): array
     {
         return [
-            //
+            "title" => "string",
+            "subtitle" => "string",
+            "content" => "string",
+            "unpublished" => "boolean",
+            "published_at" => "date",
+            "files" => "nullable|array",
+            "files.*" => "integer",
         ];
     }
 }

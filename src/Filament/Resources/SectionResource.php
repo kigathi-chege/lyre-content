@@ -6,7 +6,7 @@ use Lyre\Content\Filament\Resources\SectionResource\Pages;
 use Lyre\Content\Filament\Resources\SectionResource\RelationManagers;
 use Lyre\Content\Models\Section;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,13 +19,17 @@ class SectionResource extends Resource
 {
     protected static ?string $model = Section::class;
 
-    protected static ?string $navigationIcon = 'gmdi-grid-view';
+    protected static \BackedEnum|string|null $navigationIcon = 'gmdi-grid-view';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?int $navigationSort = 10;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -72,7 +76,7 @@ class SectionResource extends Resource
                     ->formatStateUsing(fn(Section $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->striped()
             ->deferLoading()

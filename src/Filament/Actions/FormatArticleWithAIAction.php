@@ -6,7 +6,7 @@ use Lyre\Content\Filament\Forms\ArticleAIFormComponents;
 use Lyre\Content\Jobs\ProcessArticleFormatting;
 use Lyre\Content\Models\Article;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\BulkAction;
+use Filament\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 

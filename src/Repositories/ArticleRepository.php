@@ -15,9 +15,63 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
         parent::__construct($model);
     }
 
+    public function create(array $data)
+    {
+        if (auth()->check() && !isset($data['author_id'])) {
+            $data['author_id'] = auth()->id();
+        }
+
+        $files = $data['files'] ?? null;
+        unset($data['files']);
+
+        $article = parent::create($data);
+
+        if ($files && is_array($files)) {
+            $article->resource->attachFile($files);
+        }
+
+        return $article;
+    }
+
+    public function update(array $data, string | int $slug, $thisModel = null)
+    {
+        if (auth()->check() && !isset($data['author_id'])) {
+            $data['author_id'] = auth()->id();
+        }
+
+        $files = $data['files'] ?? null;
+        unset($data['files']);
+
+        $article = parent::update($data, $slug, $thisModel);
+
+        if ($files !== null && is_array($files)) {
+            if ($article instanceof \Illuminate\Http\Resources\Json\JsonResource) {
+                $article->resource->attachFile($files);
+            } else {
+                $article->attachFile($files);
+            }
+        }
+
+        return $article;
+    }
+
     public function all($callbacks = [], $paginate = true)
     {
-        $callbacks[] = fn($query) => $query->where('unpublished', '!=', true)->where('published_at', '<=', now());
+        $user = auth()->user();
+        $canSeeUnpublished = $user && in_array($user->role, ['admin', 'super-admin'], true);
+
+        if (!$canSeeUnpublished) {
+            $callbacks[] = function ($query) use ($user) {
+                return $query->where(function ($q) use ($user) {
+                    $q->where('unpublished', '!=', true)->where('published_at', '<=', now());
+                    
+                    if ($user) {
+                        $q->orWhere('author_id', $user->id);
+                    }
+                });
+            };
+        }
+        
         if (array_key_exists('facet', request()->query())) {
             $callbacks = [
                 function ($query) {
@@ -41,5 +95,18 @@ class ArticleRepository extends Repository implements ArticleRepositoryInterface
         $articleResource->resource->update(['views' => $articleResource->resource->views + 1]);
 
         return $articleResource;
+    }
+
+    public function publish(string | int $slug)
+    {
+        $article = $this->model->where('slug', $slug)->orWhere('id', $slug)->firstOrFail();
+
+        $article->update([
+            'unpublished' => false,
+            'published_at' => now(),
+            'published_by' => auth()->id()
+        ]);
+
+        return $this->resource ? new $this->resource($article) : $article;
     }
 }

@@ -5,7 +5,7 @@ namespace Lyre\Content\Filament\Resources;
 use Lyre\Content\Filament\Resources\TextResource\Pages;
 use Lyre\Content\Models\Text;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,13 +16,17 @@ class TextResource extends Resource
 {
     protected static ?string $model = Text::class;
 
-    protected static ?string $navigationIcon = 'gmdi-edit-note';
+    protected static \BackedEnum|string|null $navigationIcon = 'gmdi-edit-note';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?int $navigationSort = 11;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema([
@@ -63,7 +67,7 @@ class TextResource extends Resource
                     ->formatStateUsing(fn(Text $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->striped()
             ->deferLoading()

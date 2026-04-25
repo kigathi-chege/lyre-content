@@ -2,7 +2,7 @@
 
 namespace Lyre\Content\Filament\Resources\SectionResource\RelationManagers;
 
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -12,7 +12,7 @@ class DataRelationManager extends RelationManager
 {
     protected static string $relationship = 'data';
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return DataResource::form($form);
     }
@@ -23,14 +23,14 @@ class DataRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns(DataResource::table($table)->getColumns())
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                \Filament\Actions\CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                \Filament\Actions\EditAction::make(),
+                \Filament\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                \Filament\Actions\DeleteBulkAction::make(),
             ])
             ->striped()
             ->deferLoading()

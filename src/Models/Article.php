@@ -43,6 +43,11 @@ class Article extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    public function publishedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'published_by');
+    }
+
     public function interactions(): MorphMany
     {
         return $this->morphMany(Interaction::class, 'entity');

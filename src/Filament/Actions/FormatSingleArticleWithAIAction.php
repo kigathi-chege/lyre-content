@@ -6,7 +6,7 @@ use Lyre\Content\Filament\Forms\ArticleAIFormComponents;
 use Lyre\Content\Jobs\ProcessArticleFormatting;
 use Lyre\Content\Models\Article;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 
 class FormatSingleArticleWithAIAction extends Action

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         $prefix = config('lyre.table_prefix');
         $tableName = $prefix . 'articles';
+        $authorTable = Schema::hasTable('users') ? 'users' : 'user';
 
         if (!Schema::hasTable($tableName)) {
-            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix, $authorTable) {
                 basic_fields($table, $tableName);
                 $table->string('title');
                 $table->string('subtitle')->nullable();
@@ -25,7 +26,7 @@ return new class extends Migration
                 $table->boolean('unpublished')->default(false);
                 $table->dateTime('published_at')->nullable();
                 $table->dateTime('sent_as_newsletter_at')->nullable();
-                $table->foreignId("author_id")->nullable()->constrained("users");
+                $table->foreignId("author_id")->nullable()->constrained($authorTable)->nullOnDelete();
                 $table->foreignId("parent_id")->nullable()->constrained($tableName)->cascadeOnDelete();
                 $table->unsignedInteger('order')->default(0);
 

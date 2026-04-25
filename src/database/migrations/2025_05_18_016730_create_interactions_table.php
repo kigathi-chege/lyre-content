@@ -13,11 +13,12 @@ return new class extends Migration
     {
         $prefix = config('lyre.table_prefix');
         $tableName = $prefix . 'interactions';
+        $userTable = Schema::hasTable('users') ? 'users' : 'user';
 
         if (!Schema::hasTable($tableName)) {
-            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix) {
+            Schema::create($tableName, function (Blueprint $table) use ($tableName, $prefix, $userTable) {
                 basic_fields($table, $tableName);
-                $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+                $table->foreignId('user_id')->nullable()->constrained($userTable)->nullOnDelete();
                 $table->foreignId('interaction_type_id')->nullable()->constrained($prefix . 'interaction_types')->nullOnDelete();
                 $table->text('content')->nullable();
                 $table->morphs('entity');
@@ -25,8 +26,8 @@ return new class extends Migration
         }
 
         if (!Schema::hasColumn($tableName, 'interaction_type_id')) {
-            Schema::table($tableName, function (Blueprint $table) {
-                $table->foreignId('interaction_type_id')->nullable()->constrained('interaction_types')->nullOnDelete();
+            Schema::table($tableName, function (Blueprint $table) use ($prefix) {
+                $table->foreignId('interaction_type_id')->nullable()->constrained($prefix . 'interaction_types')->nullOnDelete();
             });
         }
 

@@ -7,7 +7,7 @@ use Lyre\Content\Filament\Resources\PageResource\RelationManagers;
 use Lyre\Facet\Filament\RelationManagers\FacetValuesRelationManager;
 use Lyre\Content\Models\Page;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,13 +18,17 @@ class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static ?string $navigationIcon = 'gmdi-open-in-new';
+    protected static \BackedEnum|string|null $navigationIcon = 'gmdi-open-in-new';
 
-    protected static ?string $navigationGroup = 'Content';
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
 
     protected static ?int $navigationSort = 9;
 
-    public static function form(Form $form): Form
+    public static function form(Schema $form): Schema
     {
         return $form
             ->schema(
@@ -132,7 +136,7 @@ class PageResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                \Filament\Actions\EditAction::make(),
             ])
             ->striped()
             ->deferLoading()
