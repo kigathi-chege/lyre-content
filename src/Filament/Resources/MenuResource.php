@@ -14,6 +14,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class MenuResource extends Resource
 {
@@ -21,11 +22,10 @@ class MenuResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-line-weight';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Organization';
     }
-
 
     protected static ?int $navigationSort = 50;
 

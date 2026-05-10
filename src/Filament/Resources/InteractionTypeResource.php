@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class InteractionTypeResource extends Resource
 {
@@ -22,11 +23,10 @@ class InteractionTypeResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-gesture';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }
-
 
     protected static ?int $navigationSort = 20;
 

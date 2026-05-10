@@ -11,6 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class TextResource extends Resource
 {
@@ -18,11 +19,10 @@ class TextResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-edit-note';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }
-
 
     protected static ?int $navigationSort = 11;
 

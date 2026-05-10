@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class InteractionResource extends Resource
 {
@@ -20,7 +21,7 @@ class InteractionResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-touch-app';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }

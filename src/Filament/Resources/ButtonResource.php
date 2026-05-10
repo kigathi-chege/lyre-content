@@ -14,6 +14,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class ButtonResource extends Resource
 {
@@ -21,7 +22,7 @@ class ButtonResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-stop';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }

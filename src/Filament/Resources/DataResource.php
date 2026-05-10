@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
+use UnitEnum;
 
 class DataResource extends Resource
 {
@@ -17,7 +18,7 @@ class DataResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-cloud';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }

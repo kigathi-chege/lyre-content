@@ -14,6 +14,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\HtmlString;
 use Lyre\File\Filament\Forms\Components\SelectFromGallery;
 use ValentinMorice\FilamentJsonColumn\JsonColumn;
+use UnitEnum;
 
 class SectionResource extends Resource
 {
@@ -21,11 +22,10 @@ class SectionResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-grid-view';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }
-
 
     protected static ?int $navigationSort = 10;
 

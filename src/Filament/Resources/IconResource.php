@@ -14,6 +14,7 @@ use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
+use UnitEnum;
 
 class IconResource extends Resource
 {
@@ -21,7 +22,7 @@ class IconResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-image';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }

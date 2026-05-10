@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Facades\Auth;
+use UnitEnum;
 
 class PageResource extends Resource
 {
@@ -20,11 +21,10 @@ class PageResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-open-in-new';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }
-
 
     protected static ?int $navigationSort = 9;
 
