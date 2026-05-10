@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Support\Facades\Auth;
 use Lyre\File\Filament\Forms\Components\SelectFromGallery;
+use UnitEnum;
 
 class ArticleResource extends Resource
 {
