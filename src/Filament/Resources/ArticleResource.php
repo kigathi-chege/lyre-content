@@ -23,11 +23,10 @@ class ArticleResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'gmdi-newspaper';
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Content';
     }
-
 
     protected static ?string $navigationLabel = 'Blog';
 
