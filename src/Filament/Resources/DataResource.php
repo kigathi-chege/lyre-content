@@ -74,10 +74,10 @@ class DataResource extends Resource
                     ->numeric()
                     ->sortable(),
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 \Filament\Actions\BulkActionGroup::make([
                     \Filament\Actions\DeleteBulkAction::make(),
                 ]),

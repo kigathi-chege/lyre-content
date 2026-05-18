@@ -66,7 +66,7 @@ class TextResource extends Resource
                 Tables\Columns\TextColumn::make('icon')
                     ->formatStateUsing(fn(Text $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
             ])
             ->striped()

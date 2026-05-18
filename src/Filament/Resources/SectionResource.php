@@ -75,7 +75,7 @@ class SectionResource extends Resource
                 Tables\Columns\TextColumn::make('icon')
                     ->formatStateUsing(fn(Section $record): HtmlString => $record->icon ? new HtmlString($record->icon->content) : ''),
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
             ])
             ->striped()

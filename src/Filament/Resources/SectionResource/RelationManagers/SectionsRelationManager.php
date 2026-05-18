@@ -28,7 +28,7 @@ class SectionsRelationManager extends RelationManager
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
             ])
             ->striped()

@@ -153,11 +153,11 @@ class ArticleResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 FormatSingleArticleWithAIAction::make(),
                 \Filament\Actions\EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 \Filament\Actions\BulkActionGroup::make([
                     FormatArticleWithAIAction::make(),
                     \Filament\Actions\DeleteBulkAction::make(),

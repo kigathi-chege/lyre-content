@@ -75,7 +75,7 @@ class ButtonResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
             ])
             ->striped()

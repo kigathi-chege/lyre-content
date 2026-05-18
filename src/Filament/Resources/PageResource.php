@@ -7,8 +7,11 @@ use Lyre\Content\Filament\Resources\PageResource\RelationManagers;
 use Lyre\Facet\Filament\RelationManagers\FacetValuesRelationManager;
 use Lyre\Content\Models\Page;
 use Filament\Forms;
-use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Fieldset;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use FilamentTiptapEditor\TiptapEditor;
@@ -33,9 +36,9 @@ class PageResource extends Resource
         return $form
             ->schema(
                 [
-                    Forms\Components\Tabs::make('Tabs')
+                    Tabs::make('Tabs')
                         ->tabs([
-                            Forms\Components\Tabs\Tab::make('Content')
+                            Tab::make('Content')
                                 ->schema([
                                     Forms\Components\TextInput::make('title')
                                         ->required()
@@ -47,7 +50,7 @@ class PageResource extends Resource
                                         ->columnSpanFull(),
                                     TiptapEditor::make('description')
                                         ->columnSpanFull(),
-                                    Forms\Components\Fieldset::make('Statuses')
+                                    Fieldset::make('Statuses')
                                         ->schema([
                                             Forms\Components\Toggle::make('is_published')
                                                 ->default(true)
@@ -63,7 +66,7 @@ class PageResource extends Resource
                                         ->visible(fn(callable $get) => $get('is_external'))
                                         ->required(fn(callable $get) => $get('is_external')),
                                 ])->columns(2),
-                            Forms\Components\Tabs\Tab::make('SEO')
+                            Tab::make('SEO')
                                 ->schema([
                                     Forms\Components\Textarea::make('meta_description')
                                         ->columnSpanFull(),
@@ -77,7 +80,7 @@ class PageResource extends Resource
                                         ->default('index'),
                                     Forms\Components\TextInput::make('schema_markup'),
                                 ]),
-                            Forms\Components\Tabs\Tab::make('Open Graph')
+                            Tab::make('Open Graph')
                                 ->schema([
                                     Forms\Components\TextInput::make('og_title')
                                         ->maxLength(255),
@@ -86,7 +89,7 @@ class PageResource extends Resource
                                     Forms\Components\FileUpload::make('og_image')
                                         ->image(),
                                 ]),
-                            Forms\Components\Tabs\Tab::make('Twitter')
+                            Tab::make('Twitter')
                                 ->schema([
                                     Forms\Components\TextInput::make('twitter_title')
                                         ->maxLength(255),
@@ -95,7 +98,7 @@ class PageResource extends Resource
                                     Forms\Components\FileUpload::make('twitter_image')
                                         ->image(),
                                 ]),
-                            Forms\Components\Tabs\Tab::make('Analytics')
+                            Tab::make('Analytics')
                                 ->schema([
                                     Forms\Components\TextInput::make('total_views')
                                         ->required()
@@ -135,7 +138,7 @@ class PageResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
             ])
             ->striped()

@@ -55,7 +55,7 @@ class SectionsRelationManager extends RelationManager
                                 ->select("{$prefix}sections.id", "{$prefix}sections.slug", "{$prefix}sections.name", "{$prefix}page_sections.order");
                         }
                     )
-                    ->form(fn(\Filament\Actions\AttachAction $action): array => [
+                    ->schema(fn(\Filament\Actions\AttachAction $action): array => [
                         $action->getRecordSelect(),
                         Forms\Components\TextInput::make('order')
                             ->numeric(),
@@ -99,7 +99,7 @@ class SectionsRelationManager extends RelationManager
                         $action->success();
                     }),
             ])
-            ->actions([
+            ->recordActions([
                 \Filament\Actions\EditAction::make(),
                 Action::make('view')
                     ->label('View')
@@ -108,7 +108,7 @@ class SectionsRelationManager extends RelationManager
                     ->url(fn($record) => route('filament.admin.resources.sections.edit', $record->id)),
                 \Filament\Actions\DetachAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 \Filament\Actions\BulkActionGroup::make([
                     \Filament\Actions\DeleteBulkAction::make(),
                 ]),

@@ -8,7 +8,7 @@ use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Radio;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -32,7 +32,7 @@ class UploadArticlesFromFolderAction extends Action
             ->label('Upload Articles')
             ->icon('heroicon-o-cloud-arrow-up')
             // ->color('success')
-            ->form([
+            ->schema([
                 Section::make('File Upload')
                     ->description('Upload article files, a zip archive, or multiple files at once')
                     ->schema([
