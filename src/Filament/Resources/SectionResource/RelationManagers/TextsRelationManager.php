@@ -22,6 +22,8 @@ class TextsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        $prefix = config('lyre.table_prefix');
+
         return $table
             ->recordTitleAttribute('name')
             ->columns(TextResource::table($table)->getColumns())
@@ -33,6 +35,6 @@ class TextsRelationManager extends RelationManager
             ])
             ->striped()
             ->deferLoading()
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort("{$prefix}texts.created_at", 'desc');
     }
 }

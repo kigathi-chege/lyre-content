@@ -22,6 +22,8 @@ class SectionsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        $prefix = config('lyre.table_prefix');
+
         return $table
             ->recordTitleAttribute('name')
             ->columns(SectionResource::table($table)->getColumns())
@@ -33,6 +35,6 @@ class SectionsRelationManager extends RelationManager
             ])
             ->striped()
             ->deferLoading()
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort("{$prefix}sections.created_at", 'desc');
     }
 }

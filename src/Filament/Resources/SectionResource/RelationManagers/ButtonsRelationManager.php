@@ -22,6 +22,8 @@ class ButtonsRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        $prefix = config('lyre.table_prefix');
+
         return $table
             ->recordTitleAttribute('name')
             ->columns(ButtonResource::table($table)->getColumns())
@@ -37,7 +39,6 @@ class ButtonsRelationManager extends RelationManager
             ])
             ->striped()
             ->deferLoading()
-            // NOTE: Kigathi - September 5 2025 - When we add custom table names, this will need to be updated
-            ->defaultSort('buttons.created_at', 'desc');
+            ->defaultSort("{$prefix}buttons.created_at", 'desc');
     }
 }
