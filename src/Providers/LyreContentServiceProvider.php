@@ -4,6 +4,7 @@ namespace Lyre\Content\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Lyre\Content\Console\Commands\GenerateFilamentResources;
+use Lyre\Content\Console\Commands\SanitizeArticles;
 use Livewire\Livewire;
 use Lyre\Content\Filament\Resources\PageResource\RelationManagers\SectionsRelationManager;
 use Lyre\Content\Filament\Resources\SectionResource\RelationManagers\DataRelationManager;
@@ -14,7 +15,7 @@ class LyreContentServiceProvider extends ServiceProvider
     {
         register_repositories($this->app, 'Lyre\\Content\\Repositories', 'Lyre\\Content\\Repositories\\Contracts');
 
-        $this->commands([GenerateFilamentResources::class]);
+        $this->commands([GenerateFilamentResources::class, SanitizeArticles::class]);
     }
 
     public function boot(): void
