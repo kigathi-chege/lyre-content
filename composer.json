@@ -19,7 +19,7 @@
     "laravel 12"
   ],
   "license": "MIT",
-  "version": "2.10.0",
+  "version": "2.9.0",
   "minimum-stability": "stable",
   "autoload": {
     "files": [
@@ -46,8 +46,7 @@
     "intervention/image-laravel": "^1.5",
     "lyre/lyre": "^2.0",
     "lyre/file": "^1.4",
-    "lyre/facet": "^1.4",
-    "symfony/html-sanitizer": "^7.0"
+    "lyre/facet": "^1.4"
   },
   "extra": {
     "laravel": {

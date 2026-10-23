@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Lyre\Facet\Concerns\HasFacet;
 use Lyre\File\Concerns\HasFile;
-use Lyre\Content\Support\ArticleHtmlSanitizer;
 use Lyre\Model;
 
 class Article extends Model
@@ -28,16 +27,6 @@ class Article extends Model
 
     // TODO: Kigathi - May 18 2025 - Relations should also be exclusible
     protected array $excluded = ['interactions'];
-
-    protected static function booted(): void
-    {
-        // Every write path (API, Filament, AI formatting, bulk upload) goes through here.
-        static::saving(function (Article $article) {
-            if ($article->isDirty('content')) {
-                $article->content = ArticleHtmlSanitizer::clean($article->content);
-            }
-        });
-    }
 
     public function getStatusAttribute()
     {
